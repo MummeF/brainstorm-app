@@ -112,8 +112,7 @@
         app:layout_constraintRight_toLeftOf="@+id/guidelineVerticalRight"
         app:layout_constraintTop_toBottomOf="@+id/createRoomButton"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        />
+        android:layout_marginRight="10dp"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
