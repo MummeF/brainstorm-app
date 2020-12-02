@@ -1,5 +1,6 @@
 package com.dhbw.brainstorm.api
 
+import com.dhbw.brainstorm.api.model.Room
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -28,7 +29,9 @@ interface CommonClient {
     @GET("/api/validateRoomId")
     fun validateRoomId(@Query("roomId") roomId: Int): Call<Boolean>
 
-    @GET("/api/validatePassword")
-    fun validatePassword(@Query("roomId") roomId: Int, @Body password: String): Call<Boolean>
+
+    @GET("/api/getRoomList")
+    fun getRoomList(): Call<List<Room>>
+
 
 }

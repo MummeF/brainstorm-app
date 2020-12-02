@@ -13,6 +13,7 @@ interface CommentClient {
         @Query("contributionId") contributionId: Int,
         @Query("commentId") commentId: Int
     )
+
     @GET("/api/voteCommentDown")
     fun voteCommentDown(
         @Query("roomId") roomId: Int,
