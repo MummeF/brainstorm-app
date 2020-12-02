@@ -26,8 +26,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
       
         checkBackend()
+
+
+        joinRoomButton.setOnClickListener {
+            var intent = Intent(this, JoinActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     fun checkBackend() {
