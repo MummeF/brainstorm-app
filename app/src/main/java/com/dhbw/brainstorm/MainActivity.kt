@@ -19,7 +19,6 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
-    val BACKEND_URL = "https://brainstorm-dhbw-backend.herokuapp.com"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         val client = Retrofit.Builder()
             .addConverterFactory(ScalarsConverterFactory.create())
-            .baseUrl(BACKEND_URL)
+            .baseUrl(getString(R.string.backendUrl))
             .client(httpClient)
             .build()
             .create(CommonClient::class.java)
@@ -79,7 +78,7 @@ class MainActivity : AppCompatActivity() {
         val client = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .client(httpClient)
-            .baseUrl(BACKEND_URL)
+            .baseUrl(getString(R.string.backendUrl))
             .build()
             .create(CommonClient::class.java)
         client.isAlive().enqueue(object : Callback<String> {
