@@ -25,21 +25,21 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.10" />
+        app:layout_constraintGuide_percent="0.15" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHorizontalButtonsTop"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.15" />
+        app:layout_constraintGuide_percent="0.18" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHorizontalButtonsBottom"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.88" />
+        app:layout_constraintGuide_percent="0.9" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHorizontalFooterBottom"
@@ -50,7 +50,7 @@
 
     <TextView
         android:id="@+id/roomHeadline"
-        style="@style/textViewHeaderStyleSmaller"
+        style="@style/textViewHeaderStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Name des Raums"
@@ -71,37 +71,36 @@
         app:layout_constraintTop_toBottomOf="@+id/roomHeadline" />
 
     <TextView
-        android:id="@+id/textViewDescriptionRoom"
+        style="@style/textViewDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/textViewRoomPhase"
         android:text="Create-Phase"
-        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintBottom_toBottomOf="@id/guidelineHorizontalButtonsTop"
-        app:layout_constraintEnd_toStartOf="@id/nextBtn"
+        app:layout_constraintEnd_toEndOf="@id/guidelineVerticalRight"
         app:layout_constraintStart_toStartOf="@id/guidelineVerticalLeft"
         app:layout_constraintTop_toTopOf="@id/guidelineHorizontalText" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <Button
         android:id="@+id/addContribution"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_add_24"
-        app:layout_constraintBottom_toBottomOf="@id/guidelineHorizontalButtonsBottom"
-        app:layout_constraintEnd_toStartOf="@id/guidelineVerticalRight"
+        android:drawableLeft="@drawable/ic_baseline_add_24"
+        android:text="add contribution"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/nextBtn"
         app:layout_constraintStart_toStartOf="@id/guidelineVerticalLeft"
-        app:layout_constraintTop_toTopOf="@id/guidelineHorizontalButtonsBottom"
-        android:backgroundTint="@color/lightGreen"/>
+        app:layout_constraintTop_toTopOf="@id/guidelineHorizontalFooterBottom" />
 
     <Button
         android:id="@+id/nextBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableEnd="@drawable/ic_baseline_skip_next_24"
-        android:text="Edit"
-        app:layout_constraintTop_toTopOf="@id/guidelineHorizontalText"
+        android:drawableLeft="@drawable/ic_baseline_skip_next_24"
+        android:text="Next"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guidelineVerticalRight"
-        app:layout_constraintBottom_toBottomOf="@id/guidelineHorizontalButtonsTop"/>
+        app:layout_constraintStart_toEndOf="@id/addContribution"
+        app:layout_constraintTop_toTopOf="@id/guidelineHorizontalFooterBottom" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contributionArea"
@@ -124,14 +123,5 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:scrollbars="horizontal"
         tools:listitem="@layout/item_contribution_card"
-        android:layout_margin="1dp"
-        android:padding="5dp"/>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/layout_footerbackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guidelineHorizontalFooterBottom" />
+        android:layout_margin="1dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
