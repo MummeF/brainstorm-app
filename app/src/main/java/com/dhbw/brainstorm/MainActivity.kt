@@ -1,7 +1,9 @@
 package com.dhbw.brainstorm
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.util.JsonReader
 import android.view.View
 import android.widget.Toast
@@ -23,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+      
         checkBackend()
     }
 
