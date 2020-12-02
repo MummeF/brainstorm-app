@@ -19,7 +19,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
-    val BACKEND_URL = "https://brainstorm-dhbw-backend.herokuapp.com"
+    val BACKEND_URL = getString(R.string.backendUrl)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

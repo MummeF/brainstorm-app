@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Brainstorm</string>
+    <string name="backendUrl" translatable="false">https://brainstorm-dhbw-backend.herokuapp.com</string>
 </resources>
