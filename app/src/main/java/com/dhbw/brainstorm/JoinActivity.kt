@@ -91,6 +91,16 @@ class JoinActivity : AppCompatActivity(){
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        println("HIIIEIRRR")
+    }
+
+
     public fun joinRoom(roomId: Int){
         val intent = Intent(this, RoomActivity::class.java)
             try {

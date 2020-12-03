@@ -49,6 +49,8 @@ class CreateRoomActivity : AppCompatActivity() {
         publicRoomSwitch.setOnCheckedChangeListener { _, _ ->
             toggleRoomPasswordVisibility()
         }
+
+        createRoomButton.setOnClickListener { onCreateRoomButtonClick() }
     }
 
 

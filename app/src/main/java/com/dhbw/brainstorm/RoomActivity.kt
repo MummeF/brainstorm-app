@@ -1,5 +1,6 @@
 package com.dhbw.brainstorm
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -35,6 +36,8 @@ class RoomActivity : AppCompatActivity() {
 
     private lateinit var adapter: ContributionsAdapter
     private lateinit var stompConnection: Disposable
+    private lateinit var stomp: StompClient
+    private lateinit var topic: Disposable
     private var roomId: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -157,7 +160,7 @@ class RoomActivity : AppCompatActivity() {
             .connectTimeout(10, TimeUnit.SECONDS)
             .build()
 
-        val stomp = StompClient(client, intervalMillis).apply { this@apply.url = url }
+        stomp = StompClient(client, intervalMillis).apply { this@apply.url = url }
 
         // connect
         stompConnection = stomp.connect().subscribe {
@@ -165,7 +168,7 @@ class RoomActivity : AppCompatActivity() {
                 Event.Type.OPENED -> {
 
                     // subscribe
-                    val topic = stomp.join(getString(R.string.wsTopic))
+                    topic = stomp.join(getString(R.string.wsTopic))
                         .subscribe({
                             var message = Gson().fromJson(it, ReceiveMessage::class.java)
                             when (message.type) {
@@ -227,10 +230,10 @@ class RoomActivity : AppCompatActivity() {
 
                 }
                 Event.Type.CLOSED -> {
-
+                    unsubScribeAndDisconnect()
                 }
                 Event.Type.ERROR -> {
-
+                    unsubScribeAndDisconnect()
                 }
             }
         }
@@ -240,7 +243,7 @@ class RoomActivity : AppCompatActivity() {
 
     override fun onPause() {
         if (stompConnection != null) {
-            stompConnection.dispose()
+            unsubScribeAndDisconnect()
         }
         hideRoom()
         super.onPause()
@@ -260,6 +263,27 @@ class RoomActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    @SuppressLint("CheckResult")
+    fun unsubScribeAndDisconnect(){
+        stomp.send(
+            getString(R.string.wsUnSub),
+            Gson().toJson(SubscribeMessage(roomId))
+        ).subscribe({
+            topic.dispose()
+            stompConnection.dispose()
+        }, { error ->
+            runOnUiThread {
+                error.printStackTrace()
+                Toast.makeText(
+                    applicationContext,
+                    "Something went wrong. Please try again or come back later.",
+                    Toast.LENGTH_LONG
+                ).show()
+                goToHome()
+            }
+        })
     }
 
     fun hideRoom() {
