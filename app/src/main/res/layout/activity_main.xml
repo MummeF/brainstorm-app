@@ -58,7 +58,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.925" />
+            app:layout_constraintGuide_percent="0.95" />
 
         <TextView
             android:id="@+id/headline"
@@ -83,6 +83,7 @@
             app:layout_constraintRight_toRightOf="@id/guidelineVerticalRight"
             app:layout_constraintTop_toBottomOf="@+id/headline" />
 
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -102,6 +103,7 @@
             android:layout_marginRight="10dp"
             android:drawableLeft="@drawable/ic_baseline_add_24"
             android:text="Create a new Room"
+            android:onClick="openCreateRoomActivity"
             app:layout_constraintBottom_toTopOf="@+id/joinRoomButton"
             app:layout_constraintLeft_toLeftOf="@id/guidelineVerticalLeft"
             app:layout_constraintRight_toRightOf="@+id/guidelineVerticalRight"
@@ -116,6 +118,7 @@
             android:layout_marginRight="10dp"
             android:drawableLeft="@drawable/ic_baseline_group_24"
             android:text="Join an existing Room"
+            android:onClick="openJoinRoomActivity"
             app:layout_constraintBottom_toBottomOf="@+id/guidelineHorizontalButtonsBottom"
             app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
             app:layout_constraintRight_toLeftOf="@+id/guidelineVerticalRight"
@@ -137,7 +140,7 @@
         android:id="@+id/progress"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/darkGrey"
+        android:background="@color/buttonBackgroundGrey"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

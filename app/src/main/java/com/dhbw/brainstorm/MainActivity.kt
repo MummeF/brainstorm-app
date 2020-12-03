@@ -1,5 +1,6 @@
 package com.dhbw.brainstorm
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.JsonReader
@@ -99,6 +100,15 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    fun openCreateRoomActivity(view: View) {
+        intent = Intent(this, CreateRoomActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun openJoinRoomActivity(view: View) {
+        Toast.makeText(applicationContext, "This is not implemented yet, you greedy Bastard!", Toast.LENGTH_LONG).show();
     }
 
 }

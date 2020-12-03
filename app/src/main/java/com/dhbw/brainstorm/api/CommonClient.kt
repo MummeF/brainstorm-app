@@ -24,10 +24,10 @@ interface CommonClient {
     ): Call<Int>
 
     @POST("/api/setPassword")
-    fun setRoomPassword(@Body password: Int, @Query("roomId") roomId: Int) : Call<Boolean>
+    fun setRoomPassword(@Body password: String, @Query("roomId") roomId: Int) : Call<Boolean>
 
     @POST("/api/setModeratorPassword")
-    fun setModeratorPassword(@Body password: Int, @Query("roomId") roomId: Int) : Call<Boolean>
+    fun setModeratorPassword(@Body password: String, @Query("roomId") roomId: Int) : Call<Boolean>
 
     @GET("/api/hasPassword")
     fun hasPassword(@Query("roomId") roomId: Int)
