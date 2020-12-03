@@ -3,7 +3,6 @@ package com.dhbw.brainstorm.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dhbw.brainstorm.R
@@ -11,22 +10,30 @@ import com.dhbw.brainstorm.api.model.Contribution
 import com.dhbw.brainstorm.api.model.RoomState
 
 
-class ContributionsAdapter(
-    private var contributions: List<Contribution>,
-    private var roomState: RoomState
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ContributionsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+
+    private var contributions: List<Contribution> = ArrayList<Contribution>();
+    private var roomState: RoomState = RoomState.CREATE
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-//        if (viewType == 0) {
-//            val itemView = LayoutInflater.from(parent.context)
-//                .inflate(R.layout.item_new_contribution, parent, false)
-//            return AddContributionViewHolder(itemView)
-//        } else {
+
+        when(roomState){
+            RoomState.CREATE -> {
+                val itemView = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_contribution_create, parent, false)
+                return ContributionViewHolder(itemView)
+            }
+            RoomState.EDIT -> {
+                val itemView = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_contribution_edit, parent, false)
+                return ContributionViewHolder(itemView)
+            }
+        }
+
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_contribution_card, parent, false)
+            .inflate(R.layout.item_contribution_create, parent, false)
         return ContributionViewHolder(itemView)
-//        }
 
     }
 
