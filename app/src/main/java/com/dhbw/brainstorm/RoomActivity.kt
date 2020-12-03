@@ -1,5 +1,6 @@
 package com.dhbw.brainstorm
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,109 +9,141 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.dhbw.brainstorm.adapter.ContributionsAdapter
+import com.dhbw.brainstorm.api.CommonClient
+import com.dhbw.brainstorm.api.RoomClient
+import com.dhbw.brainstorm.api.model.Room
+import com.dhbw.brainstorm.api.model.RoomState
+import kotlinx.android.synthetic.main.activity_main.*
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.util.concurrent.TimeUnit
 
 class RoomActivity : AppCompatActivity() {
-
-    private val item_list = generateDummyList()
-    private val adapter_value = MyAdapter(item_list)
+    private lateinit var adapter: ContributionsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room)
-        findViewById<RecyclerView>(R.id.contributionList).adapter = adapter_value
+        val roomId = intent.getIntExtra("roomId", -1)
+        validateRoomId(roomId)
+        adapter = ContributionsAdapter(ArrayList(), RoomState.CREATE)
+        findViewById<RecyclerView>(R.id.contributionList).adapter = adapter
 
-        findViewById<View>(R.id.addContribution).setOnClickListener{
-            addContribution()
-        }
 
     }
 
+    fun validateRoomId(roomId: Int) {
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BASIC
+        val httpClient = OkHttpClient.Builder()
+            .addInterceptor(interceptor)
+            .build()
 
-    // generate dummy data
-    private fun generateDummyList(): ArrayList<ContributionContent>{
-        val tmpContributionList = ArrayList<ContributionContent>()
-        for (i in 0 until 5){
-            tmpContributionList.add(ContributionContent("Beitrag " + i.toString(), 1))
-        }
-        return tmpContributionList
+        val client = Retrofit.Builder()
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .baseUrl(getString(R.string.backendUrl))
+            .client(httpClient)
+            .build()
+            .create(CommonClient::class.java)
+        client.validateRoomId(roomId).enqueue(object : Callback<Boolean> {
+            override fun onResponse(
+                call: Call<Boolean>,
+                response: Response<Boolean>
+            ) {
+                if (response.code() == 200) {
+                    if (!response.body()!!) {
+                        Toast.makeText(
+                            applicationContext,
+                            "Invalid Room-ID",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        goToHome()
+                    } else {
+                        fetchRoom(roomId)
+                        Toast.makeText(
+                            applicationContext,
+                            "JUHU!!!",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                } else {
+                    Toast.makeText(
+                        applicationContext,
+                        "Something went wrong. Please try again or come back later.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    goToHome()
+                }
+            }
+
+            override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                t.printStackTrace()
+                Toast.makeText(
+                    applicationContext,
+                    "Something went wrong. Please try again or come back later.",
+                    Toast.LENGTH_LONG
+                ).show()
+                goToHome()
+            }
+
+        })
     }
 
-    // adding new contribution to the recyclerlist
-    private fun addContribution() {
-        val newContribution = ContributionContent("the new item", 0)
-        item_list.add(item_list.count(), newContribution)
-        adapter_value.notifyItemInserted(item_list.count())
+    fun fetchRoom(roomId: Int) {
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BASIC
+        val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
+        val client = Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(httpClient)
+            .baseUrl(getString(R.string.backendUrl))
+            .build()
+            .create(RoomClient::class.java)
+        client.getRoom(roomId).enqueue(object : Callback<Room> {
+            override fun onResponse(
+                call: Call<Room>,
+                response: Response<Room>
+            ) {
+
+                if (response.code() == 200) {
+                    var room = response.body()!!
+                    adapter.update(room.contributions, room.state)
+                    Thread.sleep(2000)
+                    fetchRoom(roomId)
+                } else {
+                    Toast.makeText(
+                        applicationContext,
+                        "Something went wrong. Please try again or come back later.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    goToHome()
+                }
+            }
+
+            override fun onFailure(call: Call<Room>, t: Throwable) {
+                Toast.makeText(
+                    applicationContext,
+                    "Something went wrong. Please try again or come back later.",
+                    Toast.LENGTH_LONG
+                ).show()
+                goToHome()
+            }
+
+        })
     }
 
-    fun confirmNewContribution(view: View){
-        // get the text from the EditText
-        val editTextView = findViewById<EditText>(R.id.editTextNewContribution)
-        val newContent = editTextView.text.toString();
-
-        // remove the item with the EditText from the list
-        item_list.removeAt(item_list.count() - 1)
-        adapter_value.notifyItemRemoved(item_list.count() -1 )
-
-        // add new Contribution with the text from the EditText
-        val newContribution = ContributionContent(newContent, 1)
-        item_list.add(item_list.count(), newContribution)
-        adapter_value.notifyItemInserted(item_list.count())
+    fun goToHome() {
+        var intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 }
 
-data class ContributionContent(val textContent: String, val viewType: Int)
-
-class MyAdapter(private val data_list: List<ContributionContent>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-
-    // different types of layout for the single items
-    private final val ITEM_TYPE_ADD = 0; // adding new contribution -> EditText
-    private final val ITEM_TYPE_CONTRIBUTION = 1; // normal contribution with content -> TextView
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if(viewType == 0)
-        {
-            val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_new_contribution, parent, false)
-            return AddContributionViewHolder(itemView)
-        }
-        else
-        {
-            val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_contribution_card, parent, false)
-            return ContributionViewHolder(itemView)
-        }
-
-    }
-
-    override fun getItemCount() = data_list.count()
-
-    override fun getItemViewType(position: Int): Int {
-        if(data_list[position].viewType == 0)
-        {
-            return ITEM_TYPE_ADD
-        }
-        else
-        {
-            return ITEM_TYPE_CONTRIBUTION
-        }
-    }
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val currentItem = data_list[position]
-        val currentViewType = getItemViewType(position)
-        when(currentViewType){
-            0 -> {
-                val addContrViewHolder: AddContributionViewHolder = holder as AddContributionViewHolder;
-            }
-            1 ->{
-                val contrViewHolder: ContributionViewHolder = holder as ContributionViewHolder;
-                contrViewHolder.textViewContent.text = currentItem.textContent;
-            }
-        }
-    }
-
-    class ContributionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val textViewContent: TextView = itemView.findViewById(R.id.contributionTextView)
-    }
-    class AddContributionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val editTextView: EditText = itemView.findViewById(R.id.editTextNewContribution)
-    }
-}
