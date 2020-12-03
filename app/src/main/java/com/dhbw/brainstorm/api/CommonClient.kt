@@ -1,10 +1,7 @@
 package com.dhbw.brainstorm.api
 
-<<<<<<< HEAD
 import okhttp3.RequestBody
-=======
 import com.dhbw.brainstorm.api.model.Room
->>>>>>> 6a668070fb6a030de20ea2cea71e3db997fe234d
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -31,13 +28,8 @@ interface CommonClient {
     fun setRoomPassword(@Body password: RequestBody, @Query("roomId") roomId: Int) : Call<Boolean>
 
     @POST("/api/setModeratorPassword")
-<<<<<<< HEAD
     fun setModeratorPassword(@Body password: RequestBody, @Query("roomId") roomId: Int) : Call<Boolean>
 
-    @GET("/api/hasPassword")
-    fun hasPassword(@Query("roomId") roomId: Int)
-=======
-    fun setModeratorPassword(@Body password: String, @Query("roomId") roomId: Int) : Call<Boolean>
   
     @GET("/api/hasPassword")
     fun hasPassword(@Query("roomId") roomId: Int): Call<Boolean>
@@ -49,6 +41,4 @@ interface CommonClient {
     @GET("/api/getRoomList")
     fun getRoomList(): Call<List<Room>>
 
-
->>>>>>> 6a668070fb6a030de20ea2cea71e3db997fe234d
 }
