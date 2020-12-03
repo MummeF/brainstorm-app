@@ -14,7 +14,57 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TextView
+            android:id="@+id/description"
+            style="@style/textViewDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create a new Room, or join an existing"
+            app:layout_constraintBottom_toTopOf="@+id/guidelineHorizontalText"
+            app:layout_constraintLeft_toLeftOf="@id/guidelineVerticalLeft"
+            app:layout_constraintRight_toRightOf="@id/guidelineVerticalRight"
+            app:layout_constraintTop_toBottomOf="@+id/headline" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/layout_buttonbackground"
+            app:layout_constraintBottom_toTopOf="@+id/guidelineHorizontalButtonsBottom"
+            app:layout_constraintLeft_toRightOf="@+id/guidelineVerticalLeft"
+            app:layout_constraintRight_toLeftOf="@+id/guidelineVerticalRight"
+            app:layout_constraintTop_toBottomOf="@+id/guidelineHorizontalButtonsTop" />
+
+
+        <Button
+            android:id="@+id/createRoomButton"
+            style="@style/buttonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:drawableLeft="@drawable/ic_baseline_add_24"
+            android:text="Create a new Room"
+            app:layout_constraintBottom_toTopOf="@+id/joinRoomButton"
+            app:layout_constraintLeft_toLeftOf="@id/guidelineVerticalLeft"
+            app:layout_constraintRight_toRightOf="@+id/guidelineVerticalRight"
+            app:layout_constraintTop_toBottomOf="@+id/guidelineHorizontalButtonsTop" />
+
+        <Button
+            android:id="@+id/joinRoomButton"
+            style="@style/buttonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:drawableLeft="@drawable/ic_baseline_group_24"
+            android:text="Join an existing Room"
+            app:layout_constraintBottom_toBottomOf="@+id/guidelineHorizontalButtonsBottom"
+            app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
+            app:layout_constraintRight_toLeftOf="@+id/guidelineVerticalRight"
+            app:layout_constraintTop_toBottomOf="@+id/createRoomButton" />
         tools:context=".MainActivity">
 
 
@@ -72,57 +122,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <TextView
-            android:id="@+id/description"
-            style="@style/textViewDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Create a new Room, or join an existing"
-            app:layout_constraintBottom_toTopOf="@+id/guidelineHorizontalText"
-            app:layout_constraintLeft_toLeftOf="@id/guidelineVerticalLeft"
-            app:layout_constraintRight_toRightOf="@id/guidelineVerticalRight"
-            app:layout_constraintTop_toBottomOf="@+id/headline" />
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@drawable/layout_buttonbackground"
-            app:layout_constraintBottom_toTopOf="@+id/guidelineHorizontalButtonsBottom"
-            app:layout_constraintLeft_toRightOf="@+id/guidelineVerticalLeft"
-            app:layout_constraintRight_toLeftOf="@+id/guidelineVerticalRight"
-            app:layout_constraintTop_toBottomOf="@+id/guidelineHorizontalButtonsTop" />
-
-
-        <Button
-            android:id="@+id/createRoomButton"
-            style="@style/buttonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:drawableLeft="@drawable/ic_baseline_add_24"
-            android:text="Create a new Room"
-            android:onClick="openCreateRoomActivity"
-            app:layout_constraintBottom_toTopOf="@+id/joinRoomButton"
-            app:layout_constraintLeft_toLeftOf="@id/guidelineVerticalLeft"
-            app:layout_constraintRight_toRightOf="@+id/guidelineVerticalRight"
-            app:layout_constraintTop_toBottomOf="@+id/guidelineHorizontalButtonsTop" />
-
-        <Button
-            android:id="@+id/joinRoomButton"
-            style="@style/buttonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:drawableLeft="@drawable/ic_baseline_group_24"
-            android:text="Join an existing Room"
-            android:onClick="openJoinRoomActivity"
-            app:layout_constraintBottom_toBottomOf="@+id/guidelineHorizontalButtonsBottom"
-            app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
-            app:layout_constraintRight_toLeftOf="@+id/guidelineVerticalRight"
-            app:layout_constraintTop_toBottomOf="@+id/createRoomButton" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
