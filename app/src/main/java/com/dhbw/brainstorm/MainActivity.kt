@@ -112,4 +112,13 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    fun openCreateRoomActivity(view: View) {
+        intent = Intent(this, CreateRoomActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun openJoinRoomActivity(view: View) {
+        Toast.makeText(applicationContext, "This is not implemented yet, you greedy Bastard!", Toast.LENGTH_LONG).show();
+    }
+
 }

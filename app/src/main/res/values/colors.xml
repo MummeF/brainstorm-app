@@ -2,10 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="buttonBackgroundGrey">#f5f5f5</color>
-    <color name="buttonGrey">#CCCCCC</color>
+    <color name="buttonGrey">#e0e0e0</color>
     <color name="darkGreen">#769977</color>
     <color name="darkGrey">#424242</color>
-    <color name="footerBackgroundGrey">#757575</color>
+    <color name="footerBackgroundGrey">#bdbdbd</color>
     <color name="lightGreen">#a5d6a7</color>
     <color name="white">#FFFFFF</color>
 
