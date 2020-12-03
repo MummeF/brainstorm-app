@@ -1,5 +1,6 @@
 package com.dhbw.brainstorm
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.dhbw.brainstorm.api.CommonClient
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.android.synthetic.main.activity_join.*
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -22,6 +24,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.lang.NumberFormatException
 import java.util.concurrent.TimeUnit
 
 class CreateRoomActivity : AppCompatActivity() {
@@ -93,7 +96,7 @@ class CreateRoomActivity : AppCompatActivity() {
         createRoomButton.requestLayout()
     }
 
-    fun onCreateRoomButtonClick(view: View) {
+    fun onCreateRoomButtonClick() {
         var topic: String = topicInputField.text.toString()
         var description: String = descriptionInputField.text.toString()
         var moderatorPassword: String = moderatorPasswordInputField.text.toString()
@@ -155,7 +158,7 @@ class CreateRoomActivity : AppCompatActivity() {
 
     fun setModeratorPassword(roomId: Int, moderatorPassword: String){
         val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
+        interceptor.level = HttpLoggingInterceptor.Level.BASIC
         val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
         val client = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
@@ -237,8 +240,9 @@ class CreateRoomActivity : AppCompatActivity() {
     }
 
     fun joinCreatedRoom(roomId: Int){
-        Toast.makeText(this, "Wenn wir weiter wären, würdest du jetzt dem Raum mit der Id" + roomId.toString() + " beitreten", Toast.LENGTH_SHORT).show()
-        //hier fehlt der intent mit RoomId zur Room Activity
+        val intent = Intent(this, RoomActivity::class.java)
+        intent.putExtra("roomId", roomId)
+        startActivity(intent)
     }
-
 }
+
