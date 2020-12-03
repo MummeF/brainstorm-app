@@ -17,6 +17,7 @@ import com.dhbw.brainstorm.api.RoomClient
 import com.dhbw.brainstorm.api.model.Room
 import com.dhbw.brainstorm.api.model.RoomState
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_room.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -35,7 +36,7 @@ class RoomActivity : AppCompatActivity() {
         setContentView(R.layout.activity_room)
         val roomId = intent.getIntExtra("roomId", -1)
         validateRoomId(roomId)
-        adapter = ContributionsAdapter(ArrayList(), RoomState.CREATE)
+        adapter = ContributionsAdapter()
         findViewById<RecyclerView>(R.id.contributionList).adapter = adapter
 
 
@@ -68,12 +69,7 @@ class RoomActivity : AppCompatActivity() {
                         ).show()
                         goToHome()
                     } else {
-                        fetchRoom(roomId)
-                        Toast.makeText(
-                            applicationContext,
-                            "JUHU!!!",
-                            Toast.LENGTH_LONG
-                        ).show()
+                        validatePassword(roomId)
                     }
                 } else {
                     Toast.makeText(
@@ -98,6 +94,53 @@ class RoomActivity : AppCompatActivity() {
         })
     }
 
+    fun validatePassword(roomId: Int) {
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BASIC
+        val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
+        val client = Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(httpClient)
+            .baseUrl(getString(R.string.backendUrl))
+            .build()
+            .create(CommonClient::class.java)
+        client.hasPassword(roomId).enqueue(object : Callback<Boolean> {
+            override fun onResponse(
+                call: Call<Boolean>,
+                response: Response<Boolean>
+            ) {
+
+                if (response.code() == 200) {
+                    if(response.body()!!){
+                        // TODO: Passworteingabe und PW prüfen
+
+                    }else{
+                        fetchRoom(roomId)
+                    }
+                } else {
+
+                    Toast.makeText(
+                        applicationContext,
+                        "Something went wrong. Please try again or come back later.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    goToHome()
+                }
+            }
+
+            override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                Toast.makeText(
+                    applicationContext,
+                    "Something went wrong. Please try again or come back later.",
+                    Toast.LENGTH_LONG
+                ).show()
+                goToHome()
+            }
+
+        })
+
+    }
+
     fun fetchRoom(roomId: Int) {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BASIC
@@ -115,6 +158,8 @@ class RoomActivity : AppCompatActivity() {
             ) {
 
                 if (response.code() == 200) {
+                    roomProgress.visibility = View.GONE
+                    roomLayout.visibility = View.VISIBLE
                     var room = response.body()!!
                     adapter.update(room.contributions, room.state)
                     Thread.sleep(2000)
