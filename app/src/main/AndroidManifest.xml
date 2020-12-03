@@ -12,6 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Brainstorm">
         <activity android:name=".CreateRoomActivity"></activity>
+        <activity android:name=".JoinActivity"></activity>
+        <activity
+            android:name=".RoomActivity"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -3,10 +3,12 @@ package com.dhbw.brainstorm
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.util.JsonReader
 import android.view.View
 import android.widget.Toast
 import com.dhbw.brainstorm.api.CommonClient
+import com.dhbw.brainstorm.api.RoomClient
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.OkHttpClient
@@ -24,7 +26,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+      
         checkBackend()
+
+
+        joinRoomButton.setOnClickListener {
+            var intent = Intent(this, JoinActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     fun checkBackend() {
@@ -81,8 +91,8 @@ class MainActivity : AppCompatActivity() {
             .client(httpClient)
             .baseUrl(getString(R.string.backendUrl))
             .build()
-            .create(CommonClient::class.java)
-        client.isAlive().enqueue(object : Callback<String> {
+            .create(RoomClient::class.java)
+        client.increaseRoomState(123).enqueue(object : Callback<String> {
             override fun onResponse(
                 call: Call<String>,
                 response: Response<String>
