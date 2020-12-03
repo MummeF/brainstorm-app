@@ -121,21 +121,18 @@
             app:layout_constraintBottom_toBottomOf="@id/guidelineHorizontalButtonsBottom"
             app:layout_constraintEnd_toEndOf="@id/guidelineVerticalRight"
             app:layout_constraintStart_toStartOf="@id/guidelineVerticalLeft"
-            app:layout_constraintTop_toTopOf="@id/guidelineHorizontalButtonsTop" />
+            app:layout_constraintTop_toTopOf="@id/guidelineHorizontalButtonsTop">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/contributionList"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_margin="1dp"
             android:padding="8dp"
-            android:scrollbars="horizontal"
+            android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="@id/guidelineHorizontalButtonsBottom"
-            app:layout_constraintLeft_toLeftOf="@id/guidelineVerticalLeft"
-            app:layout_constraintRight_toRightOf="@id/guidelineVerticalRight"
-            app:layout_constraintTop_toTopOf="@id/guidelineHorizontalButtonsTop"
             tools:listitem="@layout/item_contribution_create" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
