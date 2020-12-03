@@ -10,7 +10,11 @@ import com.dhbw.brainstorm.api.CommonClient
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_main.*
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Callback
@@ -151,7 +155,7 @@ class CreateRoomActivity : AppCompatActivity() {
 
     fun setModeratorPassword(roomId: Int, moderatorPassword: String){
         val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BASIC
+        interceptor.level = HttpLoggingInterceptor.Level.BODY
         val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
         val client = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
@@ -159,12 +163,14 @@ class CreateRoomActivity : AppCompatActivity() {
             .baseUrl(getString(R.string.backendUrl))
             .build()
             .create(CommonClient::class.java)
-        client.setModeratorPassword(moderatorPassword, roomId).enqueue(object : Callback<Boolean> {
+
+        var requestBody: RequestBody =
+            moderatorPassword.toRequestBody("text/plain".toMediaTypeOrNull())
+        client.setModeratorPassword(requestBody, roomId).enqueue(object : Callback<Boolean> {
             override fun onResponse(
                 call: Call<Boolean>,
                 response: Response<Boolean>
             ) {
-
                 if (response.code() == 200) {
                     joinCreatedRoom(roomId)
                 }
@@ -199,7 +205,9 @@ class CreateRoomActivity : AppCompatActivity() {
             .baseUrl(getString(R.string.backendUrl))
             .build()
             .create(CommonClient::class.java)
-        client.setRoomPassword(roomPassword, roomId).enqueue(object : Callback<Boolean> {
+        var requestBody: RequestBody =
+            roomPassword.toRequestBody("text/plain".toMediaTypeOrNull())
+        client.setRoomPassword(requestBody, roomId).enqueue(object : Callback<Boolean> {
             override fun onResponse(
                 call: Call<Boolean>,
                 response: Response<Boolean>
