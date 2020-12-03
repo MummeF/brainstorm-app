@@ -27,8 +27,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-      
+
         checkBackend()
+
+        createRoomButton.setOnClickListener {
+            openCreateRoomActivity()
+        }
+
+
 
 
         joinRoomButton.setOnClickListener {
@@ -112,13 +118,17 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    fun openCreateRoomActivity(view: View) {
+    fun openCreateRoomActivity() {
         intent = Intent(this, CreateRoomActivity::class.java)
         startActivity(intent)
     }
 
     fun openJoinRoomActivity(view: View) {
-        Toast.makeText(applicationContext, "This is not implemented yet, you greedy Bastard!", Toast.LENGTH_LONG).show();
+        Toast.makeText(
+            applicationContext,
+            "This is not implemented yet, you greedy Bastard!",
+            Toast.LENGTH_LONG
+        ).show();
     }
 
 }
