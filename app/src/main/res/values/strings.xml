@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Brainstorm</string>
     <string name="backendUrl" translatable="false">https://brainstorm-dhbw-backend.herokuapp.com</string>
+    <string name="backendWebSocketUrl" translatable="false">wss://brainstorm-dhbw-backend.herokuapp.com/websocket</string>
+    <string name="wsSub" translatable="false">/app/subscribe</string>
+    <string name="wsUnSub" translatable="false">/app/unsubscribe</string>
+    <string name="wsTopic" translatable="false">/user/topic/room</string>
 </resources>

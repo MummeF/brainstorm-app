@@ -63,6 +63,7 @@ class ContributionsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyDataSetChanged()
     }
 
+
     class ContributionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textViewContent: TextView = itemView.findViewById(R.id.contributionTextView)
     }
