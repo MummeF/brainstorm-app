@@ -26,10 +26,12 @@ import com.gmail.bishoybasily.stomp.lib.StompClient
 import com.google.gson.Gson
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_room.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.android.synthetic.main.dialog_add_contribution.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+//import kotlinx.android.synthetic.main.dialog_add_contribution.*
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Callback
@@ -52,9 +54,13 @@ class RoomActivity : AppCompatActivity() {
         roomId = intent.getIntExtra("roomId", -1)
         validateRoomId(roomId)
         adapter = ContributionsAdapter()
-        findViewById<RecyclerView>(R.id.contributionList).adapter = adapter
-        findViewById<Button>(R.id.nextBtn).setOnClickListener {
+        contributionList.adapter = adapter
+        nextBtn.setOnClickListener {
             upgradeRoomState()
+        }
+
+        addContribution.setOnClickListener {
+            dialogAddNewContribution()
         }
 
     }
@@ -125,13 +131,12 @@ class RoomActivity : AppCompatActivity() {
         return true
     }
 
-    fun dialogAddNewContribution(view: View) {
+    fun dialogAddNewContribution() {
         val dialog = Dialog(this)
 
         dialog.setContentView(R.layout.dialog_add_contribution)
-        dialog.show()
-        dialog.findViewById<Button>(R.id.submitBtnNewContributionDialog).setOnClickListener {
-            val editText = dialog.findViewById<EditText>(R.id.editTextNewContributionDialog)
+        dialog.submitBtnNewContributionDialog.setOnClickListener {
+            val editText = dialog.editTextNewContributionDialog
 
             val contentNewContribution = editText.text.toString()
             dialog.dismiss()
@@ -139,6 +144,8 @@ class RoomActivity : AppCompatActivity() {
 
             addNewContribution(roomId, contentNewContribution)
         }
+        dialog.show()
+
     }
 
     private fun addNewContribution(roomId: Int, content: String) {
@@ -152,7 +159,9 @@ class RoomActivity : AppCompatActivity() {
             .baseUrl(getString(R.string.backendUrl))
             .build()
             .create(ContributionClient::class.java)
-        client.addContribution(roomId, content).enqueue(object : Callback<String> {
+        var requestBody: RequestBody =
+            content.toRequestBody("text/plain".toMediaTypeOrNull())
+        client.addContribution(roomId, requestBody).enqueue(object : Callback<String> {
             override fun onResponse(
                 call: Call<String>,
                 response: Response<String>
@@ -310,7 +319,14 @@ class RoomActivity : AppCompatActivity() {
                                     var room =
                                         Gson().fromJson(message.content, Room::class.java)
                                     runOnUiThread {
-                                        adapter.update(room.contributions, room.state)
+                                        if(adapter.room.state != room.state){
+                                            adapter = ContributionsAdapter()
+                                            contributionList.adapter = adapter
+
+                                            // TODO if room.state == RoomState.Done -> Intent auf ResultActivity
+                                        }
+                                        adapter.update(room)
+
                                         roomHeadline.text = room.topic
                                         roomDescription.text = room.description
                                     }

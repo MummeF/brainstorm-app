@@ -7,18 +7,19 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dhbw.brainstorm.R
 import com.dhbw.brainstorm.api.model.Contribution
+import com.dhbw.brainstorm.api.model.Room
 import com.dhbw.brainstorm.api.model.RoomState
+import okhttp3.internal.notifyAll
 
 
 class ContributionsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
-    private var contributions: List<Contribution> = ArrayList<Contribution>();
-    private var roomState: RoomState = RoomState.CREATE
+    public var room = Room(ArrayList(), "", -1, "", false, RoomState.CREATE, "")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
-        when(roomState){
+        when (room.state) {
             RoomState.CREATE -> {
                 val itemView = LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_contribution_create, parent, false)
@@ -37,11 +38,11 @@ class ContributionsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     }
 
-    override fun getItemCount() = contributions.count()
+    override fun getItemCount() = room.contributions.count()
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val currentItem = contributions[position]
-        when (roomState) {
+        val currentItem = room.contributions[position]
+        when (room.state) {
             RoomState.EDIT -> {
                 val contrViewHolder: ContributionViewHolder = holder as ContributionViewHolder;
                 contrViewHolder.textViewContent.text = currentItem.content;
@@ -57,14 +58,14 @@ class ContributionsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    fun update(contributions: List<Contribution>, roomState: RoomState) {
-        this.roomState = roomState
-        this.contributions = contributions
+    fun update(room: Room) {
+
+        this.room = room
         notifyDataSetChanged()
     }
 
 
     class ContributionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val textViewContent: TextView = itemView.findViewById(R.id.commentContentTextView)
+        val textViewContent: TextView = itemView.findViewById(R.id.contentTextView)
     }
 }
