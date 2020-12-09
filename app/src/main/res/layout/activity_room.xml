@@ -37,7 +37,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.15" />
+            app:layout_constraintGuide_percent="0.12" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineHorizontalButtonsTop"
@@ -101,7 +101,8 @@
         app:layout_constraintEnd_toStartOf="@id/guidelineVerticalRight"
         app:layout_constraintStart_toStartOf="@id/guidelineVerticalLeft"
         app:layout_constraintTop_toTopOf="@id/guidelineHorizontalButtonsBottom"
-        android:backgroundTint="@color/lightGreen"/>
+        android:backgroundTint="@color/lightGreen"
+        android:onClick="dialogAddNewContribution"/>
 
     <Button
         android:id="@+id/nextBtn"
@@ -131,7 +132,7 @@
             android:padding="8dp"
             android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_contribution_create" />
+            tools:listitem="@layout/item_contribution_edit" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -148,8 +149,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="gone">
-
-
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyle"

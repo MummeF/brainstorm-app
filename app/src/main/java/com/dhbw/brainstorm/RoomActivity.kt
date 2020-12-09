@@ -2,15 +2,23 @@ package com.dhbw.brainstorm
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.dhbw.brainstorm.adapter.ContributionsAdapter
 import com.dhbw.brainstorm.api.CommonClient
+import com.dhbw.brainstorm.api.ContributionClient
+import com.dhbw.brainstorm.api.RoomClient
 import com.dhbw.brainstorm.api.model.Room
+import com.dhbw.brainstorm.api.model.RoomState
 import com.dhbw.brainstorm.websocket.model.ReceiveMessage
 import com.dhbw.brainstorm.websocket.model.SubscribeMessage
 import com.gmail.bishoybasily.stomp.lib.Event
@@ -32,8 +40,6 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
 class RoomActivity : AppCompatActivity() {
-
-
     private lateinit var adapter: ContributionsAdapter
     private lateinit var stompConnection: Disposable
     private lateinit var stomp: StompClient
@@ -47,8 +53,135 @@ class RoomActivity : AppCompatActivity() {
         validateRoomId(roomId)
         adapter = ContributionsAdapter()
         findViewById<RecyclerView>(R.id.contributionList).adapter = adapter
+        findViewById<Button>(R.id.nextBtn).setOnClickListener {
+            upgradeRoomState()
+        }
 
+    }
 
+    fun upgradeRoomState() {
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BASIC
+        val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
+        val client = Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(httpClient)
+            .baseUrl(getString(R.string.backendUrl))
+            .build()
+            .create(RoomClient::class.java)
+        client.increaseRoomState(roomId).enqueue(object : Callback<String> {
+            override fun onResponse(
+                call: Call<String>,
+                response: Response<String>
+            ) {
+                if (response.code() == 200) {
+                } else {
+                    Toast.makeText(
+                        applicationContext,
+                        "Something went wrong.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Toast.makeText(
+                    applicationContext,
+                    "Something went wrong.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+
+        })
+
+    }
+
+    // initialize menu bar
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_create, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.itemShareCreate -> {
+                val i = Intent(Intent.ACTION_SEND)
+                i.setType("text/plain")
+                i.putExtra(Intent.EXTRA_TEXT, getString(R.string.backendUrl) + "/room/" + roomId)
+                i.putExtra(Intent.EXTRA_SUBJECT, "Check out this Brainstorm room")
+                startActivity(Intent.createChooser(i, "Share link to room via"))
+            }
+            R.id.itemRequestModerator -> Toast.makeText(
+                applicationContext,
+                "get moderator rights",
+                Toast.LENGTH_SHORT
+            ).show()
+            R.id.itemEditRoomSettings -> Toast.makeText(
+                applicationContext,
+                "edit room",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        return true
+    }
+
+    fun dialogAddNewContribution(view: View) {
+        val dialog = Dialog(this)
+
+        dialog.setContentView(R.layout.dialog_add_contribution)
+        dialog.show()
+        dialog.findViewById<Button>(R.id.submitBtnNewContributionDialog).setOnClickListener {
+            val editText = dialog.findViewById<EditText>(R.id.editTextNewContributionDialog)
+
+            val contentNewContribution = editText.text.toString()
+            dialog.dismiss()
+            Toast.makeText(applicationContext, "submitted", Toast.LENGTH_SHORT).show()
+
+            addNewContribution(roomId, contentNewContribution)
+        }
+    }
+
+    private fun addNewContribution(roomId: Int, content: String) {
+        Toast.makeText(applicationContext, "adding new contrib ...", Toast.LENGTH_SHORT).show()
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BASIC
+        val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
+        val client = Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(httpClient)
+            .baseUrl(getString(R.string.backendUrl))
+            .build()
+            .create(ContributionClient::class.java)
+        client.addContribution(roomId, content).enqueue(object : Callback<String> {
+            override fun onResponse(
+                call: Call<String>,
+                response: Response<String>
+            ) {
+
+                if (response.code() == 200) {
+                    Toast.makeText(
+                        applicationContext,
+                        "Added new Contribution: " + content,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(
+                        applicationContext,
+                        "forbidden to add new contrib",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Toast.makeText(
+                    applicationContext,
+                    "Something went wrong. Please try again or come back later.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+
+        })
     }
 
     fun validateRoomId(roomId: Int) {
@@ -172,19 +305,21 @@ class RoomActivity : AppCompatActivity() {
                         .subscribe({
                             var message = Gson().fromJson(it, ReceiveMessage::class.java)
                             when (message.type) {
-                                "isAlive" -> println("Hearbeat!")
+                                "isAlive" -> println("Heartbeat!")
                                 "data" -> {
                                     var room =
                                         Gson().fromJson(message.content, Room::class.java)
                                     runOnUiThread {
                                         adapter.update(room.contributions, room.state)
+                                        roomHeadline.text = room.topic
+                                        roomDescription.text = room.description
                                     }
                                 }
                                 "mod-update" -> {
                                     //TODO: Update Mod
                                 }
                                 "delete" -> {
-                                    runOnUiThread{
+                                    runOnUiThread {
                                         Toast.makeText(
                                             applicationContext,
                                             "Room was deleted by the moderator.",
@@ -266,7 +401,7 @@ class RoomActivity : AppCompatActivity() {
     }
 
     @SuppressLint("CheckResult")
-    fun unsubScribeAndDisconnect(){
+    fun unsubScribeAndDisconnect() {
         stomp.send(
             getString(R.string.wsUnSub),
             Gson().toJson(SubscribeMessage(roomId))

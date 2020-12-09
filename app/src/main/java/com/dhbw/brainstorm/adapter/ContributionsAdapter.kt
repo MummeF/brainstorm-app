@@ -65,6 +65,6 @@ class ContributionsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
     class ContributionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val textViewContent: TextView = itemView.findViewById(R.id.contributionTextView)
+        val textViewContent: TextView = itemView.findViewById(R.id.commentContentTextView)
     }
 }
