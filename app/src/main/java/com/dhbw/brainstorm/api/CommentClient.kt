@@ -6,7 +6,7 @@ import retrofit2.http.*
 
 interface CommentClient {
     @POST("/api/addComment")
-    fun addComment(@Query("roomId") roomId: Int, @Body content: RequestBody): Call<String>
+    fun addComment(@Query("roomId") roomId: Int, @Query("contributionId") contributionId: Int, @Body content: RequestBody): Call<String>
 
     @GET("/api/voteCommentUp")
     fun voteCommentUp(
