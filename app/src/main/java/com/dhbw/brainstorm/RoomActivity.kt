@@ -97,7 +97,7 @@ class RoomActivity : AppCompatActivity() {
             dialog.dismiss()
             Toast.makeText(applicationContext, "submitted", Toast.LENGTH_SHORT).show()
 
-            validateModeratorId(contentNewContribution)
+            validateModeratorPassword(contentNewContribution)
         }
         dialog.show()
     }
@@ -319,12 +319,93 @@ class RoomActivity : AppCompatActivity() {
 
     }
 
-    fun validateModeratorPassword(password: String){
+    fun validateModeratorPassword(password: String) {
         // check password
-            //if true
-                //setModeratorId(SharedPrefHelper.bla)
-            //else
-                //Toast: Mod password incorrect
+        //if true
+        //setModeratorId(SharedPrefHelper.bla)
+        //else
+        //Toast: Mod password incorrect
+
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BASIC
+        val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
+        val client = Retrofit.Builder()
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .client(httpClient)
+            .baseUrl(getString(R.string.backendUrl))
+            .build()
+            .create(RoomClient::class.java)
+        client.validateModeratorPassword(roomId, password)
+            .enqueue(object : Callback<Boolean> {
+                override fun onResponse(
+                    call: Call<Boolean>,
+                    response: Response<Boolean>
+                ) {
+                    if (response.code() == 200) {
+                        if (response.body()!!) {
+                            setModeratorId()
+                        }else {
+                            Toast.makeText(
+                                applicationContext,
+                                "Moderator ID was not right",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    } else {
+                            Toast.makeText(
+                                applicationContext,
+                                "Something went wrong",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
+                override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                    Toast.makeText(
+                        applicationContext,
+                        "Something went wrong",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+    }
+
+    fun setModeratorId(){
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BASIC
+        val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
+        val client = Retrofit.Builder()
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .client(httpClient)
+            .baseUrl(getString(R.string.backendUrl))
+            .build()
+            .create(RoomClient::class.java)
+        val moderatorId = SharedPrefHelper.getModeratorId(this)
+        client.setModeratorId(roomId, moderatorId)
+            .enqueue(object : Callback<String> {
+                override fun onResponse(
+                    call: Call<String>,
+                    response: Response<String>
+                ) {
+                    if (response.code() == 200) {
+
+                    } else {
+                        Toast.makeText(
+                            applicationContext,
+                            "Something went wrong with setting the moderatod ID",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                    Toast.makeText(
+                        applicationContext,
+                        "Something went wrong",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
     }
 
     private fun validateModeratorId(modId: String) {
@@ -414,9 +495,6 @@ class RoomActivity : AppCompatActivity() {
                                 "data" -> {
                                     var room =
                                         Gson().fromJson(message.content, Room::class.java)
-
-                                    // TODO: Moderator is immer null -> egal ob gerade room erstellt wurde oder beigetreten wird
-                                    print("moderator id: " + room.moderatorId)
                                     runOnUiThread {
                                         if (adapter.room.state != room.state) {
                                             adapter = ContributionsAdapter(applicationContext, this)
