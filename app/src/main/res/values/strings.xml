@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Brainstorm</string>
+    <string name="frontendUrl" translatable="false">https://brainstorm-dhbw.herokuapp.com</string>
     <string name="backendUrl" translatable="false">https://brainstorm-dhbw-backend.herokuapp.com</string>
     <string name="backendWebSocketUrl" translatable="false">wss://brainstorm-dhbw-backend.herokuapp.com/websocket</string>
     <string name="wsSub" translatable="false">/app/subscribe</string>
@@ -32,7 +33,6 @@
     <string name="createPhaseLabel">Create-Phase</string>
     <string name="nameOfTheRoomLabel">Name des Raums</string>
     <string name="resultLabel">Ergebnis</string>
-    <string name="frontendUrl" translatable="false">https://brainstorm-dhbw.herokuapp.com</string>
     <string name="joinFavouritesLabel">Favoriten beitreten</string>
     <string name="roomListLabel">Raumliste</string>
     <string name="shareRoomLinkLabel">Link Teilen</string>
@@ -45,6 +45,7 @@
     <string name="contentLabel">Inhalt</string>
     <string name="newContributionLabel">Neuer Beitrag</string>
     <string name="typeModeratorPasswordLabel">Geben Sie das Moderatorpasswort ein</string>
+    <string name="typeRoomPasswordLabel">Bitte geben Sie das Passwort ein</string>
     <string name="somethingWentWrongLabel">Irgendwas ist schiefgelaufen. Bitte kommen Sie später wieder.</string>
     <string name="checkoutThisBrainstormRoomLabel">Schau dir mal diesen Brainstorm Raum an</string>
     <string name="shareLinkToRoomVia">Link teilen via</string>
@@ -54,4 +55,5 @@
     <string name="closedRoom">Room closed</string>
     <string name="errorCloseRoom">Could not close Room</string>
     <string name="appliedChanges">Changes applied</string>
+    <string name="incorrectRoomPasswordLabel">Falsches Passwort, bitte versuchen Sie es erneut</string>
 </resources>

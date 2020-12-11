@@ -39,6 +39,7 @@
     <string name="contentLabel">content</string>
     <string name="newContributionLabel">New Contribution</string>
     <string name="typeModeratorPasswordLabel">Type Moderator Password</string>
+    <string name="typeRoomPasswordLabel">Type Room Password</string>
     <string name="errorUpdateRoom">could not apply changes</string>
     <string name="closedRoom">Room closed</string>
     <string name="errorCloseRoom">could not close Room</string>
@@ -48,4 +49,5 @@
     <string name="shareLinkToRoomVia">Share link to room via</string>
     <string name="printResult">Print result</string>
     <string name="noRoomFoundLabel">No room found</string>
+    <string name="incorrectRoomPasswordLabel">Wrong Password, pleas try again</string>
 </resources>

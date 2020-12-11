@@ -25,6 +25,7 @@ import com.google.gson.Gson
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_room.*
 import kotlinx.android.synthetic.main.dialog_add_contribution.*
+import kotlinx.android.synthetic.main.dialog_enter_room_password.*
 import kotlinx.android.synthetic.main.dialog_request_mod_rights.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 //import kotlinx.android.synthetic.main.dialog_add_contribution.*
@@ -51,6 +52,7 @@ class RoomActivity : AppCompatActivity() {
     private var roomId: Int = -1
     private var roomTopic: String = ""
     private var isModerator: Boolean = false
+    private var isDialogOpen: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,6 +90,19 @@ class RoomActivity : AppCompatActivity() {
             validateModeratorPassword(contentNewContribution, dialog)
         }
         dialog.show()
+    }
+
+    fun dialogEnterRoomPassword(){
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_enter_room_password)
+        dialog.submitBtPasswordDialog.setOnClickListener{
+            val editText = dialog.editTextRoomPassword
+            
+            val roomPasswordEntered = editText.text.toString()
+            validateRoomPassword(roomPasswordEntered, dialog)
+        }
+        dialog.show()
+        isDialogOpen = true
     }
 
     fun upgradeRoomState() {
@@ -230,7 +245,7 @@ class RoomActivity : AppCompatActivity() {
                         ).show()
                         goToHome()
                     } else {
-                        validatePassword(roomId)
+                        hasPassword(roomId)
                     }
                 } else {
                     Toast.makeText(
@@ -255,7 +270,7 @@ class RoomActivity : AppCompatActivity() {
         })
     }
 
-    fun validatePassword(roomId: Int) {
+    fun hasPassword(roomId: Int) {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BASIC
         val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
@@ -272,10 +287,13 @@ class RoomActivity : AppCompatActivity() {
             ) {
 
                 if (response.code() == 200) {
-                    if (response.body()!!) {
-                        // TODO: Passworteingabe und PW prüfen
-                        fetchRoom(roomId)
-                    } else {
+                    if (response.body()!! && !isModerator) {
+
+                        if(!isDialogOpen) {
+                            dialogEnterRoomPassword()
+                        }
+                    }
+                    else {
                         fetchRoom(roomId)
                     }
                 } else {
@@ -300,6 +318,57 @@ class RoomActivity : AppCompatActivity() {
 
         })
 
+    }
+
+
+    fun validateRoomPassword(password: String, dialog: Dialog)
+    {
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BASIC
+        val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
+        val client = Retrofit.Builder()
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .client(httpClient)
+            .baseUrl(getString(R.string.backendUrl))
+            .build()
+            .create(RoomClient::class.java)
+        var requestBody: RequestBody =
+            password.toRequestBody("text/plain".toMediaTypeOrNull())
+        client.validatePassword(roomId, requestBody)
+            .enqueue(object : Callback<Boolean> {
+                override fun onResponse(
+                    call: Call<Boolean>,
+                    response: Response<Boolean>
+                ) {
+                    if (response.code() == 200) {
+                        if (response.body()!!) {
+                            dialog.dismiss()
+                            isDialogOpen = false
+                            fetchRoom(roomId)
+                        } else {
+                            Toast.makeText(
+                                applicationContext,
+                                getString(R.string.incorrectRoomPasswordLabel),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    } else {
+                        Toast.makeText(
+                            applicationContext,
+                            "Something went wrong",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                    Toast.makeText(
+                        applicationContext,
+                        "Something went wrong",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
     }
 
     fun validateModeratorPassword(password: String, dialog: Dialog) {
@@ -574,7 +643,10 @@ class RoomActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        fetchRoom(roomId)
+        if(!isDialogOpen){
+            hasPassword(roomId)
+        }
+
     }
 
     fun showRoom() {

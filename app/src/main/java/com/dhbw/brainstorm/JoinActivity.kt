@@ -46,7 +46,7 @@ class JoinActivity : AppCompatActivity(){
 
     fun getRoomList(){
         val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
+        interceptor.level = HttpLoggingInterceptor.Level.BASIC
         val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
         val client = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
