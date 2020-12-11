@@ -8,5 +8,5 @@
     <color name="footerBackgroundGrey">#bdbdbd</color>
     <color name="lightGreen">#a5d6a7</color>
     <color name="white">#FFFFFF</color>
-
+    <color name="red">#FF0000</color>
 </resources>

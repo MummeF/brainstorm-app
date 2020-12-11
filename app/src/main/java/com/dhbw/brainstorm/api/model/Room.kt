@@ -4,7 +4,7 @@ data class Room(
     val contributions: ArrayList<Contribution>,
     val description: String,
     val id: Int,
-    val moderatorId: String,
+    var moderatorId: String,
     val `public`: Boolean,
     var state: RoomState,
     val topic: String

@@ -1,14 +1,18 @@
 package com.dhbw.brainstorm
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.dhbw.brainstorm.adapter.ContributionsAdapter
 import com.dhbw.brainstorm.api.CommonClient
 import com.dhbw.brainstorm.api.ContributionClient
@@ -23,6 +27,7 @@ import com.google.gson.Gson
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_room.*
 import kotlinx.android.synthetic.main.dialog_add_contribution.*
+import kotlinx.android.synthetic.main.dialog_request_mod_rights.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 //import kotlinx.android.synthetic.main.dialog_add_contribution.*
 import okhttp3.OkHttpClient
@@ -37,28 +42,60 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
+// constants for accessing intent data
+const val ROOM_ID_INTENT = "roomId"
+
 class RoomActivity : AppCompatActivity() {
     private lateinit var adapter: ContributionsAdapter
     private lateinit var stompConnection: Disposable
     private lateinit var stomp: StompClient
     private lateinit var topic: Disposable
     private var roomId: Int = -1
+    private var isModerator: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room)
-        roomId = intent.getIntExtra("roomId", -1)
+
+        // assing the room ID and validate it
+        roomId = intent.getIntExtra(ROOM_ID_INTENT, -1)
         validateRoomId(roomId)
         adapter = ContributionsAdapter(applicationContext, this)
         contributionList.adapter = adapter
+
+        // switch to next state of the room
         nextBtn.setOnClickListener {
             upgradeRoomState()
         }
 
+        // add new Contribution
         addContribution.setOnClickListener {
             dialogAddNewContribution()
         }
 
+        // add new comment
+        //newCommentBtn.setOnClickListener{
+        //   dialogAddNewComment()
+        //}
+
+    }
+
+
+    // dialogs for requesting moderator rights and adding new data (contributions/comments)
+    fun dialogRequestModeratorRights() {
+        val dialog = Dialog(this)
+
+        dialog.setContentView(R.layout.dialog_request_mod_rights)
+        dialog.submitBtnReqModIdDialog.setOnClickListener {
+            val editText = dialog.editTextModeratorId
+
+            val contentNewContribution = editText.text.toString()
+            dialog.dismiss()
+            Toast.makeText(applicationContext, "submitted", Toast.LENGTH_SHORT).show()
+
+            validateModeratorId(contentNewContribution)
+        }
+        dialog.show()
     }
 
     fun upgradeRoomState() {
@@ -280,6 +317,61 @@ class RoomActivity : AppCompatActivity() {
 
     }
 
+    private fun validateModeratorId(modId: String) {
+
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BASIC
+        val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
+        val client = Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(httpClient)
+            .baseUrl(getString(R.string.backendUrl))
+            .build()
+            .create(RoomClient::class.java)
+        client.validateModeratorId(roomId, modId)
+            .enqueue(object : Callback<Boolean> {
+                override fun onResponse(
+                    call: Call<Boolean>,
+                    response: Response<Boolean>
+                ) {
+
+                    if (response.code() == 200) {
+                        isModerator = response.body()!!
+                        if (isModerator) {
+                            adapter.room.moderatorId = modId
+                            Toast.makeText(
+                                applicationContext,
+                                "Moderator ID was right",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            Toast.makeText(
+                                applicationContext,
+                                "Moderator ID was not right",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    } else {
+                        Toast.makeText(
+                            applicationContext,
+                            "Something went wrong",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                    Toast.makeText(
+                        applicationContext,
+                        "Something went wrong",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+            })
+    }
+
+    // handles the websocket connection
     fun fetchRoom(roomId: Int) {
 
         val url = getString(R.string.backendWebSocketUrl)
@@ -306,12 +398,23 @@ class RoomActivity : AppCompatActivity() {
                                 "data" -> {
                                     var room =
                                         Gson().fromJson(message.content, Room::class.java)
+
+                                    // TODO: Moderator is immer null -> egal ob gerade room erstellt wurde oder beigetreten wird
+                                    print("moderator id: " + room.moderatorId)
                                     runOnUiThread {
                                         if (adapter.room.state != room.state) {
                                             adapter = ContributionsAdapter(applicationContext, this)
                                             contributionList.adapter = adapter
 
                                             // TODO if room.state == RoomState.Done -> Intent auf ResultActivity
+                                            if (room.state.equals(RoomState.DONE)) {
+                                                val intent =
+                                                    Intent(this, ResultActivity::class.java)
+                                                intent.putExtra(ROOM_ID_INTENT, roomId)
+                                                startActivity(intent)
+                                                // TODO: soll funktionieren
+                                                unsubScribeAndDisconnect()
+                                            }
                                         }
                                         adapter.update(room)
 
@@ -437,6 +540,7 @@ class RoomActivity : AppCompatActivity() {
         }
     }
 
+    // go back to home Activity
     fun goToHome() {
         var intent = Intent(this, MainActivity::class.java)
         startActivity(intent)

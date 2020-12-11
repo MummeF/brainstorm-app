@@ -11,13 +11,14 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="New Comment"
-        app:layout_constraintBottom_toTopOf="@id/editTextNewCommentDialog"
+        app:layout_constraintBottom_toTopOf="@id/editTextModeratorId"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextNewCommentDialog"
+        android:id="@+id/editTextModeratorId"
         android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.7"
         android:layout_height="wrap_content"
         android:hint="content"
         app:layout_constraintBottom_toBottomOf="@id/submitBtnNewCommentDialog"
@@ -33,8 +34,8 @@
         android:backgroundTint="@color/lightGreen"
         android:src="@drawable/ic_baseline_send_24"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/editTextNewCommentDialog"
-        app:layout_constraintTop_toTopOf="@id/editTextNewCommentDialog"
-        app:layout_constraintBottom_toBottomOf="@id/editTextNewCommentDialog"
+        app:layout_constraintStart_toEndOf="@id/editTextModeratorId"
+        app:layout_constraintTop_toTopOf="@id/textViewDialogHeader"
+        app:layout_constraintBottom_toBottomOf="@id/editTextModeratorId"
         android:layout_margin="10dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

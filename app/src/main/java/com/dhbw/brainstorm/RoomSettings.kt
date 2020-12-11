@@ -1,16 +1,11 @@
 package com.dhbw.brainstorm
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
-import com.dhbw.brainstorm.adapter.ContributionsAdapter
 import com.dhbw.brainstorm.api.RoomClient
 import com.dhbw.brainstorm.api.model.Room
-import com.google.gson.Gson
-import kotlinx.android.synthetic.main.activity_room.*
+import kotlinx.android.synthetic.main.activity_room_settings.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -19,40 +14,14 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ResultActivity : AppCompatActivity() {
+class RoomSettings : AppCompatActivity() {
     private var roomId = -1
-    private lateinit var adapter: ContributionsAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_result)
-        adapter = ContributionsAdapter(applicationContext, this)
-        contributionList.adapter = adapter
-        roomId = intent.getIntExtra("roomId", -1)
+        setContentView(R.layout.activity_room_settings)
+        roomId = intent.getIntExtra(ROOM_ID_INTENT, -1)
         getRoom()
     }
-
-    // initialize menu bar
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_result, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.itemShareResult -> {
-                val i = Intent(Intent.ACTION_SEND)
-                i.setType("text/plain")
-                i.putExtra(Intent.EXTRA_TEXT, getString(R.string.backendUrl) + "/room/" + roomId)
-                i.putExtra(Intent.EXTRA_SUBJECT, "Check out this Brainstorm room")
-                startActivity(Intent.createChooser(i, "Share link to room via"))
-            }
-            R.id.itemPrintResult -> {
-                Toast.makeText(applicationContext, "print result", Toast.LENGTH_SHORT).show()
-            }
-        }
-        return true
-    }
-
     fun getRoom(){
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BASIC
@@ -63,7 +32,7 @@ class ResultActivity : AppCompatActivity() {
             .baseUrl(getString(R.string.backendUrl))
             .build()
             .create(RoomClient::class.java)
-        client.getHistoryRoom(roomId).enqueue(object : Callback<Room> {
+        client.getRoom(roomId).enqueue(object : Callback<Room> {
             override fun onResponse(
                 call: Call<Room>,
                 response: Response<Room>
@@ -72,9 +41,10 @@ class ResultActivity : AppCompatActivity() {
                 if (response.code() == 200) {
                     var room =response.body()
                     print("look here " + room)
-                    if (room != null)
+                    if ((room != null) && (room is Room))
                     {
-                        adapter.update(room)
+                        newTopicInputField.hint = room.topic
+                        newDescriptionInputField.hint = room.description
                     } else{
                         Toast.makeText(applicationContext, "no room found", Toast.LENGTH_SHORT).show()
                     }
@@ -89,5 +59,4 @@ class ResultActivity : AppCompatActivity() {
 
         })
     }
-
 }
