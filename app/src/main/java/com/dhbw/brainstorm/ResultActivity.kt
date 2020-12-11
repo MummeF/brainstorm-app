@@ -20,7 +20,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ResultActivity : AppCompatActivity() {
+class  ResultActivity : AppCompatActivity() {
     private var roomId = -1
     private lateinit var adapter: ContributionsAdapter
     override fun onCreate(savedInstanceState: Bundle?) {

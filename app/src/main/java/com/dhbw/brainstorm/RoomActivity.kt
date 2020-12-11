@@ -1,24 +1,22 @@
+
 package com.dhbw.brainstorm
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
 import com.dhbw.brainstorm.adapter.ContributionsAdapter
 import com.dhbw.brainstorm.api.CommonClient
 import com.dhbw.brainstorm.api.ContributionClient
 import com.dhbw.brainstorm.api.RoomClient
 import com.dhbw.brainstorm.api.model.Room
 import com.dhbw.brainstorm.api.model.RoomState
+import com.dhbw.brainstorm.helper.ROOM_ID_INTENT
 import com.dhbw.brainstorm.helper.SharedPrefHelper
 import com.dhbw.brainstorm.websocket.model.ReceiveMessage
 import com.dhbw.brainstorm.websocket.model.SubscribeMessage
@@ -46,9 +44,6 @@ import java.util.concurrent.TimeUnit
 
 class RoomActivity : AppCompatActivity() {
 
-
-    // constants for accessing intent data
-    val ROOM_ID_INTENT = "roomId"
     private lateinit var adapter: ContributionsAdapter
     private lateinit var stompConnection: Disposable
     private lateinit var stomp: StompClient

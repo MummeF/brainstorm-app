@@ -14,8 +14,8 @@ class SharedPrefHelper {
             contributionId: Int,
             commentId: Int
         ): Int {
-            val sharedPrev = activity.getSharedPreferences("votedComments", Context.MODE_PRIVATE)
-            val votedComments = HashSet(sharedPrev.getStringSet("commentList", HashSet<String>())!!)
+            val sharedPrev = activity.getSharedPreferences(VOTED_COMMENTS_SHARED_PREF, Context.MODE_PRIVATE)
+            val votedComments = HashSet(sharedPrev.getStringSet(COMMENT_LIST_SHARED_PREF, HashSet<String>())!!)
             for (votedComment in votedComments) {
                 if (votedComment.startsWith(("$roomId|$contributionId|$commentId"))) {
                     var tmp = votedComment.split("|")
@@ -33,13 +33,13 @@ class SharedPrefHelper {
             commentId: Int,
             voteUp: Boolean
         ) {
-            val sharedPrev = activity.getSharedPreferences("votedComments", Context.MODE_PRIVATE)
+            val sharedPrev = activity.getSharedPreferences(VOTED_COMMENTS_SHARED_PREF, Context.MODE_PRIVATE)
 
             with(sharedPrev.edit()) {
                 val votedComments =
-                    HashSet(sharedPrev.getStringSet("commentList", HashSet<String>())!!)
+                    HashSet(sharedPrev.getStringSet(COMMENT_LIST_SHARED_PREF, HashSet<String>())!!)
                 votedComments.add("$roomId|$contributionId|$commentId|" + if (voteUp) "up" else "down")
-                putStringSet("commentList", votedComments)
+                putStringSet(COMMENT_LIST_SHARED_PREF, votedComments)
                 apply()
             }
         }
@@ -47,9 +47,9 @@ class SharedPrefHelper {
         //-1 = not voted, 0 = down, 1 = up
         fun contributionVoted(activity: Activity, roomId: Int, contributionId: Int): Int {
             val sharedPrev =
-                activity.getSharedPreferences("votedContributions", Context.MODE_PRIVATE)
+                activity.getSharedPreferences(VOTED_CONTRIBUTIONS_SHARED_PREF, Context.MODE_PRIVATE)
             val votedComments =
-                HashSet(sharedPrev.getStringSet("contributionList", HashSet<String>())!!)
+                HashSet(sharedPrev.getStringSet(CONTRIBUTION_LIST_SHARED_PREF, HashSet<String>())!!)
             for (votedComment in votedComments) {
                 if (votedComment.startsWith(("$roomId|$contributionId"))) {
                     var tmp = votedComment.split("|")
@@ -67,24 +67,24 @@ class SharedPrefHelper {
             voteUp: Boolean
         ) {
             val sharedPrev =
-                activity.getSharedPreferences("votedContributions", Context.MODE_PRIVATE)
+                activity.getSharedPreferences(VOTED_CONTRIBUTIONS_SHARED_PREF, Context.MODE_PRIVATE)
 
             with(sharedPrev.edit()) {
                 val votedContributions =
-                    HashSet(sharedPrev.getStringSet("contributionList", HashSet<String>())!!)
+                    HashSet(sharedPrev.getStringSet(CONTRIBUTION_LIST_SHARED_PREF, HashSet<String>())!!)
                 votedContributions.add("$roomId|$contributionId|" + if (voteUp) "up" else "down")
-                putStringSet("contributionList", votedContributions)
+                putStringSet(CONTRIBUTION_LIST_SHARED_PREF, votedContributions)
                 apply()
             }
         }
 
         fun getModeratorId(activity: Activity): String {
-            val sharedPrev = activity.getSharedPreferences("moderator", Context.MODE_PRIVATE)
-            var moderatorId = sharedPrev.getString("moderatorId", "")
+            val sharedPrev = activity.getSharedPreferences(MODERATOR_SHARED_PREF, Context.MODE_PRIVATE)
+            var moderatorId = sharedPrev.getString(MODERATOR_ID_SHARED_PREF, "")
             if (moderatorId == "") {
                 moderatorId = UUID.randomUUID().toString()
                 with(sharedPrev.edit()) {
-                    putString("moderatorId", moderatorId)
+                    putString(MODERATOR_ID_SHARED_PREF, moderatorId)
                     apply()
                 }
             }
@@ -92,33 +92,33 @@ class SharedPrefHelper {
         }
 
         fun addFavorite(activity: Activity, roomId: Int) {
-            val sharedPref = activity.getSharedPreferences("favorite", Context.MODE_PRIVATE)
+            val sharedPref = activity.getSharedPreferences(FAVORITE_SHARED_PREF, Context.MODE_PRIVATE)
 
             with(sharedPref.edit()) {
                 val favoriteList =
                     HashSet(sharedPref.getStringSet("favoriteList", HashSet<String>())!!)
                 favoriteList.add(roomId.toString())
-                putStringSet("favoriteList", favoriteList)
+                putStringSet(FAVORITE_LIST_SHARED_PREF, favoriteList)
                 apply()
             }
         }
 
         fun removeFavorite(activity: Activity, roomId: Int): Boolean {
-            val sharedPref = activity.getSharedPreferences("favorite", Context.MODE_PRIVATE)
+            val sharedPref = activity.getSharedPreferences(FAVORITE_SHARED_PREF, Context.MODE_PRIVATE)
             var response = false;
             with(sharedPref.edit()) {
                 val favoriteList =
-                    HashSet(sharedPref.getStringSet("favoriteList", HashSet<String>())!!)
+                    HashSet(sharedPref.getStringSet(FAVORITE_LIST_SHARED_PREF, HashSet<String>())!!)
                 response = favoriteList.remove(roomId.toString())
-                putStringSet("favoriteList", favoriteList)
+                putStringSet(FAVORITE_LIST_SHARED_PREF, favoriteList)
                 apply()
             }
             return response;
         }
 
         fun getFavorites(activity: Activity): List<Int> {
-            val sharedPref = activity.getSharedPreferences("favorite", Context.MODE_PRIVATE)
-            val favoriteList = HashSet(sharedPref.getStringSet("favoriteList", HashSet<String>())!!)
+            val sharedPref = activity.getSharedPreferences(FAVORITE_SHARED_PREF, Context.MODE_PRIVATE)
+            val favoriteList = HashSet(sharedPref.getStringSet(FAVORITE_LIST_SHARED_PREF, HashSet<String>())!!)
             return favoriteList.map { roomIdAsString -> roomIdAsString.toInt() }
         }
     }

@@ -7,6 +7,11 @@
         android:title="Share Room Link"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/itemMarkFavorite"
+        android:icon="@drawable/ic_baseline_star_rate_24"
+        android:title="Mark As Favorite"
+        app:showAsAction="ifRoom"/>
+    <item
         android:id="@+id/itemRequestModerator"
         android:icon="@drawable/ic_baseline_gavel_24"
         android:title="Request Moderator"
