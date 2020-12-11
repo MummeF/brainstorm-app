@@ -15,6 +15,7 @@ import com.dhbw.brainstorm.helper.SharedPrefHelper
 import kotlinx.android.synthetic.main.item_comment_edit.view.*
 import kotlinx.android.synthetic.main.item_comment_edit.view.contentTextView
 import kotlinx.android.synthetic.main.item_comment_edit.view.contributionVotes
+import kotlinx.android.synthetic.main.item_contribution_done.view.*
 import kotlinx.android.synthetic.main.item_contribution_edit.view.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -142,7 +143,16 @@ class CommentAdapter(
                     }
                 }
                 RoomState.DONE -> {
-                    //TODO: Icons
+                    if(comment.reputation > 0){
+                        item.thumbUpDown.setImageResource(R.drawable.ic_baseline_thumb_up_24)
+                        item.thumbUpDown.setColorFilter(Color.GREEN)
+                    }else if(comment.reputation < 0){
+                        item.thumbUpDown.setImageResource(R.drawable.ic_baseline_thumb_down_24)
+                        item.thumbUpDown.setColorFilter(Color.RED)
+                    }else{
+                        item.thumbUpDown.setImageResource(R.drawable.ic_baseline_thumbs_up_down_24)
+                        item.thumbUpDown.setColorFilter(R.color.buttonGrey)
+                    }
                 }
                 else -> {
                     println("Fehler!")

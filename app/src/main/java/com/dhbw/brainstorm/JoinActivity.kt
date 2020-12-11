@@ -62,12 +62,10 @@ class JoinActivity : AppCompatActivity(){
 
                 if (response.code() == 200) {
                     var rooms: MutableList<Room> = response.body()!!
-                    var publicRooms: MutableList<Room> = mutableListOf<Room>()
-                    rooms.forEach{
-                        i -> if(i.public && i.state != RoomState.DONE){
-                            publicRooms.add(i)
-                        }
-                    }
+                    var publicRooms: List<Room> = mutableListOf<Room>()
+
+                    publicRooms = rooms.filter { room -> room.public && room.state != RoomState.DONE  }
+
                     adapter = RoomsAdapter(publicRooms, this@JoinActivity)
                     findViewById<RecyclerView>(R.id.roomList).adapter = adapter
                 } else {

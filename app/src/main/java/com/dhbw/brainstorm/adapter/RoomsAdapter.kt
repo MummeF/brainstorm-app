@@ -14,7 +14,7 @@ import com.dhbw.brainstorm.RoomActivity
 import com.dhbw.brainstorm.api.model.Room
 
 class RoomsAdapter(
-    private var rooms: MutableList<Room>, var context: Context
+    private var rooms: List<Room>, var context: Context
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 

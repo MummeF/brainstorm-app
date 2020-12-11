@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import com.dhbw.brainstorm.adapter.ContributionsAdapter
 import com.dhbw.brainstorm.api.RoomClient
@@ -53,7 +54,7 @@ class ResultActivity : AppCompatActivity() {
         return true
     }
 
-    fun getRoom(){
+    fun getRoom() {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BASIC
         val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
@@ -70,13 +71,14 @@ class ResultActivity : AppCompatActivity() {
             ) {
 
                 if (response.code() == 200) {
-                    var room =response.body()
-                    print("look here " + room)
-                    if (room != null)
-                    {
+                    var room = response.body()
+
+                    if (room != null) {
+                        showRoom()
                         adapter.update(room)
-                    } else{
-                        Toast.makeText(applicationContext, "no room found", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(applicationContext, "no room found", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 } else {
 
@@ -90,4 +92,21 @@ class ResultActivity : AppCompatActivity() {
         })
     }
 
+    fun showRoom() {
+
+        runOnUiThread {
+            // Stuff that updates the UI
+            roomLayout.visibility = View.VISIBLE
+            roomProgress.visibility = View.GONE
+        }
+
+
+    }
+
+    fun hideRoom() {
+        runOnUiThread {
+            roomLayout.visibility = View.GONE
+            roomProgress.visibility = View.VISIBLE
+        }
+    }
 }

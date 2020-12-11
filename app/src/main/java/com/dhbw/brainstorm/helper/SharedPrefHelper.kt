@@ -78,17 +78,48 @@ class SharedPrefHelper {
             }
         }
 
-        fun getModeratorId(activity: Activity) : String{
+        fun getModeratorId(activity: Activity): String {
             val sharedPrev = activity.getSharedPreferences("moderator", Context.MODE_PRIVATE)
             var moderatorId = sharedPrev.getString("moderatorId", "")
-            if(moderatorId == ""){
+            if (moderatorId == "") {
                 moderatorId = UUID.randomUUID().toString()
-                with(sharedPrev.edit()){
+                with(sharedPrev.edit()) {
                     putString("moderatorId", moderatorId)
                     apply()
                 }
             }
             return moderatorId!!
+        }
+
+        fun addFavorite(activity: Activity, roomId: Int) {
+            val sharedPref = activity.getSharedPreferences("favorite", Context.MODE_PRIVATE)
+
+            with(sharedPref.edit()) {
+                val favoriteList =
+                    HashSet(sharedPref.getStringSet("favoriteList", HashSet<String>())!!)
+                favoriteList.add(roomId.toString())
+                putStringSet("favoriteList", favoriteList)
+                apply()
+            }
+        }
+
+        fun removeFavorite(activity: Activity, roomId: Int): Boolean {
+            val sharedPref = activity.getSharedPreferences("favorite", Context.MODE_PRIVATE)
+            var response = false;
+            with(sharedPref.edit()) {
+                val favoriteList =
+                    HashSet(sharedPref.getStringSet("favoriteList", HashSet<String>())!!)
+                response = favoriteList.remove(roomId.toString())
+                putStringSet("favoriteList", favoriteList)
+                apply()
+            }
+            return response;
+        }
+
+        fun getFavorites(activity: Activity): List<Int> {
+            val sharedPref = activity.getSharedPreferences("favorite", Context.MODE_PRIVATE)
+            val favoriteList = HashSet(sharedPref.getStringSet("favoriteList", HashSet<String>())!!)
+            return favoriteList.map { roomIdAsString -> roomIdAsString.toInt() }
         }
     }
 

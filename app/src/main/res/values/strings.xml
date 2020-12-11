@@ -5,4 +5,5 @@
     <string name="wsSub" translatable="false">/app/subscribe</string>
     <string name="wsUnSub" translatable="false">/app/unsubscribe</string>
     <string name="wsTopic" translatable="false">/user/topic/room</string>
+    <string name="commentNumber">Kommentare (%d)</string>
 </resources>

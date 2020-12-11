@@ -87,20 +87,11 @@
             style="@style/textViewDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create-Phase"
+            android:text="Result"
             app:layout_constraintBottom_toBottomOf="@id/guidelineHorizontalButtonsTop"
             app:layout_constraintEnd_toEndOf="@id/guidelineVerticalRight"
             app:layout_constraintStart_toStartOf="@id/guidelineVerticalLeft"
             app:layout_constraintTop_toTopOf="@id/guidelineHorizontalText" />
-        <Button
-            android:id="@+id/nextBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/ic_baseline_skip_next_24"
-            android:text="Edit"
-            app:layout_constraintTop_toTopOf="@id/guidelineHorizontalText"
-            app:layout_constraintEnd_toEndOf="@id/guidelineVerticalRight"
-            app:layout_constraintBottom_toBottomOf="@id/guidelineHorizontalButtonsTop"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contributionArea"
