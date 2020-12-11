@@ -8,10 +8,13 @@ import android.widget.*
 import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.dhbw.brainstorm.api.CommonClient
+import com.dhbw.brainstorm.helper.SharedPrefHelper
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.android.synthetic.main.activity_create_room.*
 import kotlinx.android.synthetic.main.activity_join.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.createRoomButton
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
@@ -29,22 +32,11 @@ import java.util.concurrent.TimeUnit
 
 class CreateRoomActivity : AppCompatActivity() {
 
-    lateinit var roomPasswordHeader: TextView
-    lateinit var roomPasswordDescription: TextView
-    lateinit var roomPasswordInputFieldBackground: TextInputLayout
-    lateinit var roomPasswordInputField: TextInputEditText
-    lateinit var createRoomButton: Button
-    lateinit var publicRoomSwitch: Switch
-    lateinit var topicInputField: TextInputEditText
-    lateinit var descriptionInputField: TextInputEditText
-    lateinit var moderatorPasswordInputField: TextInputEditText
     var roomPasswordVisible: Boolean = true
-    var moderatorId: String = "5534423"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_room)
-        initComponents()
         toggleRoomPasswordVisibility()
         publicRoomSwitch.setOnCheckedChangeListener { _, _ ->
             toggleRoomPasswordVisibility()
@@ -53,18 +45,6 @@ class CreateRoomActivity : AppCompatActivity() {
         createRoomButton.setOnClickListener { onCreateRoomButtonClick() }
     }
 
-
-    private fun initComponents(){
-        roomPasswordHeader = findViewById(R.id.roomPasswordHeader)
-        roomPasswordDescription = findViewById(R.id.roomPasswordDescription)
-        roomPasswordInputFieldBackground = findViewById(R.id.roomPasswordInputFieldBackground)
-        roomPasswordInputField = findViewById(R.id.roomPasswordInputField)
-        createRoomButton = findViewById(R.id.createRoomButton)
-        publicRoomSwitch = findViewById(R.id.publicRoomSwitch)
-        topicInputField = findViewById(R.id.topicInputField)
-        descriptionInputField = findViewById(R.id.descriptionInputField)
-        moderatorPasswordInputField = findViewById(R.id.moderatorPasswordInputField)
-    }
 
 
     private fun toggleRoomPasswordVisibility(){
@@ -106,7 +86,7 @@ class CreateRoomActivity : AppCompatActivity() {
         var isRoomPublic: Boolean = roomPasswordVisible
 
         if(topic != "" && description != "" && moderatorPassword!= ""){
-            createRoom(description, isRoomPublic, moderatorId, topic, roomPassword, moderatorPassword)
+            createRoom(description, isRoomPublic, SharedPrefHelper.getModeratorId(this), topic, roomPassword, moderatorPassword)
         }
     }
 

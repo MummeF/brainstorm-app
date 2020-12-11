@@ -71,13 +71,13 @@ class ContributionsAdapter(private var context: Context, private var activity: A
     }
 
     fun update(room: Room) {
-
         this.room = room
-        notifyDataSetChanged()
+        notifyItemRangeChanged(0,room.contributions.size)
     }
 
 
     class ContributionViewHolder(val item: View) : RecyclerView.ViewHolder(item) {
+        var voting = false
         fun initContribution(
             roomId: Int,
             contribution: Contribution,
@@ -128,8 +128,18 @@ class ContributionsAdapter(private var context: Context, private var activity: A
                         roomId,
                         contribution.id,
                     )) {
-                        0 -> item.downVoteContribution.setColorFilter(Color.RED)
-                        1 -> item.upVoteContribution.setColorFilter(Color.GREEN)
+                        0 -> {
+                            item.downVoteContribution.setColorFilter(Color.RED)
+                            item.upVoteContribution.setColorFilter(R.color.buttonGrey)
+                        }
+                        1 -> {
+                            item.upVoteContribution.setColorFilter(Color.GREEN)
+                            item.downVoteContribution.setColorFilter(R.color.buttonGrey)
+                        }
+                        -1 ->{
+                            item.upVoteContribution.setColorFilter(R.color.buttonGrey)
+                            item.downVoteContribution.setColorFilter(R.color.buttonGrey)
+                        }
                     }
 
 
@@ -138,10 +148,11 @@ class ContributionsAdapter(private var context: Context, private var activity: A
                                 activity,
                                 roomId,
                                 contribution.id,
-                            ) == -1
+                            ) == -1 && !voting
                         ) {
                             voteContribution(roomId, contribution.id, true, context, activity)
                             item.upVoteContribution.setColorFilter(Color.GREEN)
+                            item.downVoteContribution.setColorFilter(R.color.buttonGrey)
                         }
                     }
                     item.downVoteContribution.setOnClickListener {
@@ -149,10 +160,11 @@ class ContributionsAdapter(private var context: Context, private var activity: A
                                 activity,
                                 roomId,
                                 contribution.id,
-                            ) == -1
+                            ) == -1 && !voting
                         ) {
                             voteContribution(roomId, contribution.id, false, context, activity)
                             item.downVoteContribution.setColorFilter(Color.RED)
+                            item.upVoteContribution.setColorFilter(R.color.buttonGrey)
                         }
                     }
                 }
@@ -179,6 +191,7 @@ class ContributionsAdapter(private var context: Context, private var activity: A
             content: String,
             context: Context
         ) {
+            voting = true
             val interceptor = HttpLoggingInterceptor()
             interceptor.level = HttpLoggingInterceptor.Level.BASIC
             val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
@@ -196,13 +209,14 @@ class ContributionsAdapter(private var context: Context, private var activity: A
                         call: Call<String>,
                         response: Response<String>
                     ) {
-
+                        voting = false
                         if (response.code() != 200) {
                             println("Error")
                         }
                     }
 
                     override fun onFailure(call: Call<String>, t: Throwable) {
+                        voting = false
                         println("Error")
                     }
 

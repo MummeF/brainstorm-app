@@ -2,6 +2,8 @@ package com.dhbw.brainstorm.helper
 
 import android.app.Activity
 import android.content.Context
+import java.util.*
+import kotlin.collections.HashSet
 
 class SharedPrefHelper {
     companion object {
@@ -13,11 +15,11 @@ class SharedPrefHelper {
             commentId: Int
         ): Int {
             val sharedPrev = activity.getSharedPreferences("votedComments", Context.MODE_PRIVATE)
-            val votedComments = sharedPrev.getStringSet("commentList", HashSet<String>())
-            for (votedComment in votedComments!!) {
+            val votedComments = HashSet(sharedPrev.getStringSet("commentList", HashSet<String>())!!)
+            for (votedComment in votedComments) {
                 if (votedComment.startsWith(("$roomId|$contributionId|$commentId"))) {
                     var tmp = votedComment.split("|")
-                    return if (tmp[3].equals("up")) 1 else 0
+                    return if (tmp[3] == "up") 1 else 0
                 }
 
             }
@@ -36,7 +38,7 @@ class SharedPrefHelper {
             with(sharedPrev.edit()) {
                 val votedComments =
                     HashSet(sharedPrev.getStringSet("commentList", HashSet<String>())!!)
-                votedComments!!.add("$roomId|$contributionId|$commentId|" + if (voteUp) "up" else "down")
+                votedComments.add("$roomId|$contributionId|$commentId|" + if (voteUp) "up" else "down")
                 putStringSet("commentList", votedComments)
                 apply()
             }
@@ -46,11 +48,12 @@ class SharedPrefHelper {
         fun contributionVoted(activity: Activity, roomId: Int, contributionId: Int): Int {
             val sharedPrev =
                 activity.getSharedPreferences("votedContributions", Context.MODE_PRIVATE)
-            val votedComments = sharedPrev.getStringSet("contributionList", HashSet<String>())
-            for (votedComment in votedComments!!) {
+            val votedComments =
+                HashSet(sharedPrev.getStringSet("contributionList", HashSet<String>())!!)
+            for (votedComment in votedComments) {
                 if (votedComment.startsWith(("$roomId|$contributionId"))) {
                     var tmp = votedComment.split("|")
-                    return if (tmp[2].equals("up")) 1 else 0
+                    return if (tmp[2] == "up") 1 else 0
                 }
 
             }
@@ -73,6 +76,19 @@ class SharedPrefHelper {
                 putStringSet("contributionList", votedContributions)
                 apply()
             }
+        }
+
+        fun getModeratorId(activity: Activity) : String{
+            val sharedPrev = activity.getSharedPreferences("moderator", Context.MODE_PRIVATE)
+            var moderatorId = sharedPrev.getString("moderatorId", "")
+            if(moderatorId == ""){
+                moderatorId = UUID.randomUUID().toString()
+                with(sharedPrev.edit()){
+                    putString("moderatorId", moderatorId)
+                    apply()
+                }
+            }
+            return moderatorId!!
         }
     }
 

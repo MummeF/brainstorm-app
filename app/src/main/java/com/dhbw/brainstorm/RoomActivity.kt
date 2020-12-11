@@ -19,6 +19,7 @@ import com.dhbw.brainstorm.api.ContributionClient
 import com.dhbw.brainstorm.api.RoomClient
 import com.dhbw.brainstorm.api.model.Room
 import com.dhbw.brainstorm.api.model.RoomState
+import com.dhbw.brainstorm.helper.SharedPrefHelper
 import com.dhbw.brainstorm.websocket.model.ReceiveMessage
 import com.dhbw.brainstorm.websocket.model.SubscribeMessage
 import com.gmail.bishoybasily.stomp.lib.Event
@@ -62,6 +63,7 @@ class RoomActivity : AppCompatActivity() {
         // assing the room ID and validate it
         roomId = intent.getIntExtra(ROOM_ID_INTENT, -1)
         validateRoomId(roomId)
+        validateModeratorId(SharedPrefHelper.getModeratorId(this))
         adapter = ContributionsAdapter(applicationContext, this)
         contributionList.adapter = adapter
 
@@ -152,11 +154,9 @@ class RoomActivity : AppCompatActivity() {
                 i.putExtra(Intent.EXTRA_SUBJECT, "Check out this Brainstorm room")
                 startActivity(Intent.createChooser(i, "Share link to room via"))
             }
-            R.id.itemRequestModerator -> Toast.makeText(
-                applicationContext,
-                "get moderator rights",
-                Toast.LENGTH_SHORT
-            ).show()
+            R.id.itemRequestModerator -> {
+                dialogRequestModeratorRights()
+            }
             R.id.itemEditRoomSettings -> Toast.makeText(
                 applicationContext,
                 "edit room",
@@ -319,13 +319,21 @@ class RoomActivity : AppCompatActivity() {
 
     }
 
+    fun validateModeratorPassword(password: String){
+        // check password
+            //if true
+                //setModeratorId(SharedPrefHelper.bla)
+            //else
+                //Toast: Mod password incorrect
+    }
+
     private fun validateModeratorId(modId: String) {
 
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BASIC
         val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
         val client = Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(ScalarsConverterFactory.create())
             .client(httpClient)
             .baseUrl(getString(R.string.backendUrl))
             .build()
@@ -340,13 +348,19 @@ class RoomActivity : AppCompatActivity() {
                     if (response.code() == 200) {
                         isModerator = response.body()!!
                         if (isModerator) {
-                            adapter.room.moderatorId = modId
+                            runOnUiThread {
+                                nextBtn.visibility = View.VISIBLE
+                            }
+
                             Toast.makeText(
                                 applicationContext,
                                 "Moderator ID was right",
                                 Toast.LENGTH_SHORT
                             ).show()
                         } else {
+                            runOnUiThread {
+                                nextBtn.visibility = View.GONE
+                            }
                             Toast.makeText(
                                 applicationContext,
                                 "Moderator ID was not right",
@@ -418,6 +432,8 @@ class RoomActivity : AppCompatActivity() {
                                                 unsubScribeAndDisconnect()
                                             }
                                         }
+//                                        adapter = ContributionsAdapter(applicationContext, this)
+//                                        contributionList.adapter = adapter
                                         adapter.update(room)
 
                                         roomHeadline.text = room.topic
@@ -431,6 +447,7 @@ class RoomActivity : AppCompatActivity() {
                                 }
                                 "mod-update" -> {
                                     //TODO: Update Mod
+                                    validateModeratorId(SharedPrefHelper.getModeratorId(this))
                                 }
                                 "delete" -> {
                                     runOnUiThread {

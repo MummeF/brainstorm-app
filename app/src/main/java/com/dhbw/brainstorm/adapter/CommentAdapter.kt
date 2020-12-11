@@ -13,6 +13,9 @@ import com.dhbw.brainstorm.api.model.Comment
 import com.dhbw.brainstorm.api.model.RoomState
 import com.dhbw.brainstorm.helper.SharedPrefHelper
 import kotlinx.android.synthetic.main.item_comment_edit.view.*
+import kotlinx.android.synthetic.main.item_comment_edit.view.contentTextView
+import kotlinx.android.synthetic.main.item_comment_edit.view.contributionVotes
+import kotlinx.android.synthetic.main.item_contribution_edit.view.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -70,6 +73,8 @@ class CommentAdapter(
 
 
     class CommentViewHolder(val item: View) : RecyclerView.ViewHolder(item) {
+        var voting: Boolean = false
+
         fun initComment(
             comment: Comment,
             roomId: Int,
@@ -88,10 +93,19 @@ class CommentAdapter(
                         contributionId,
                         comment.id
                     )) {
-                        0 -> item.downVoteComment.setColorFilter(Color.RED)
-                        1 -> item.upVoteComment.setColorFilter(Color.GREEN)
+                        0 -> {
+                            item.downVoteComment.setColorFilter(Color.RED)
+                            item.upVoteComment.setColorFilter(R.color.buttonGrey)
+                        }
+                        1 -> {
+                            item.upVoteComment.setColorFilter(Color.GREEN)
+                            item.downVoteComment.setColorFilter(R.color.buttonGrey)
+                        }
+                        -1 ->{
+                            item.upVoteComment.setColorFilter(R.color.buttonGrey)
+                            item.downVoteComment.setColorFilter(R.color.buttonGrey)
+                        }
                     }
-
 
                     item.upVoteComment.setOnClickListener {
                         if (SharedPrefHelper.commentVoted(
@@ -99,10 +113,11 @@ class CommentAdapter(
                                 roomId,
                                 contributionId,
                                 comment.id
-                            ) == -1
+                            ) == -1 && !voting
                         ) {
                             voteComment(roomId, contributionId, comment.id, true, context, activity)
                             item.upVoteComment.setColorFilter(Color.GREEN)
+                            item.downVoteComment.setColorFilter(R.color.buttonGrey)
                         }
                     }
                     item.downVoteComment.setOnClickListener {
@@ -111,7 +126,7 @@ class CommentAdapter(
                                 roomId,
                                 contributionId,
                                 comment.id
-                            ) == -1
+                            ) == -1 && !voting
                         ) {
                             voteComment(
                                 roomId,
@@ -122,6 +137,7 @@ class CommentAdapter(
                                 activity
                             )
                             item.downVoteComment.setColorFilter(Color.RED)
+                            item.upVoteComment.setColorFilter(R.color.buttonGrey)
                         }
                     }
                 }
@@ -142,6 +158,7 @@ class CommentAdapter(
             context: Context,
             activity: Activity
         ) {
+            voting = true;
             val interceptor = HttpLoggingInterceptor()
             interceptor.level = HttpLoggingInterceptor.Level.BASIC
             val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
@@ -164,6 +181,7 @@ class CommentAdapter(
                     response: Response<String>
                 ) {
 
+                    voting = false;
                     if (response.code() != 200) {
                         println("Error")
                     } else {
@@ -178,6 +196,7 @@ class CommentAdapter(
                 }
 
                 override fun onFailure(call: Call<String>, t: Throwable) {
+                    voting = false;
                     println("Error")
                 }
 
