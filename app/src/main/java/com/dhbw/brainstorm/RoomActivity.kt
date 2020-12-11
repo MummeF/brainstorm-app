@@ -1,4 +1,3 @@
-
 package com.dhbw.brainstorm
 
 import android.annotation.SuppressLint
@@ -149,12 +148,21 @@ class RoomActivity : AppCompatActivity() {
             R.id.itemRequestModerator -> {
                 dialogRequestModeratorRights()
             }
-            R.id.itemEditRoomSettings -> Toast.makeText(
-                applicationContext,
-                "edit room",
-                Toast.LENGTH_SHORT
-            ).show()
+            R.id.itemEditRoomSettings -> {
+                val intent =
+                    Intent(this, RoomSettings::class.java)
+                intent.putExtra(ROOM_ID_INTENT, roomId)
+                startActivity(intent)
+            }
         }
+        return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        val reqModItem = menu.findItem(R.id.itemRequestModerator)
+        val settingsItem = menu.findItem(R.id.itemEditRoomSettings)
+        // reqModItem.setVisible(!isModerator)
+        // settingsItem.setVisible(isModerator)
         return true
     }
 
@@ -419,6 +427,7 @@ class RoomActivity : AppCompatActivity() {
                         if (isModerator) {
                             runOnUiThread {
                                 nextBtn.visibility = View.VISIBLE
+
                             }
 
                             Toast.makeText(
