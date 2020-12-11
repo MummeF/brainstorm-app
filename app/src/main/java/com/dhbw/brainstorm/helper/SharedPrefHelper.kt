@@ -132,6 +132,16 @@ class SharedPrefHelper {
             }
             return result
         }
+
+        fun isFavorite(activity: Activity, roomId: Int): Boolean{
+            val favorites = getFavorites(activity)
+            var isFav = false;
+            favorites.forEach{ room ->
+                if(room.id == roomId)
+                    isFav = true
+            }
+            return isFav
+        }
     }
 
 

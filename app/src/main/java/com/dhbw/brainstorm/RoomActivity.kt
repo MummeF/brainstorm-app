@@ -147,11 +147,7 @@ class RoomActivity : AppCompatActivity() {
                 dialogRequestModeratorRights()
             }
             R.id.itemMarkFavorite -> {
-                var favRoom = SharedPrefHelper.getFavorites(this)
-                    .filter { room: Room -> room.id == roomId.toInt() }
-                print(favRoom)
-                print(SharedPrefHelper.getFavorites(this))
-                if (favRoom != null) {
+                if (!SharedPrefHelper.isFavorite(this, roomId)) {
                     SharedPrefHelper.addFavorite(this, roomId, roomTopic)
                     Toast.makeText(
                         applicationContext,
@@ -185,12 +181,10 @@ class RoomActivity : AppCompatActivity() {
         val favItem = menu.findItem(R.id.itemMarkFavorite)
         reqModItem.setVisible(!isModerator)
         settingsItem.setVisible(isModerator)
-        var roomIsFavorite =
-            SharedPrefHelper.getFavorites(this).filter { room: Room -> room.id == roomId }
-        if (roomIsFavorite != null) {
-            favItem.icon = resources.getDrawable(R.drawable.ic_baseline_star_rate_24)
+        if (SharedPrefHelper.isFavorite(this, roomId)) {
+            favItem.setIcon(R.drawable.ic_baseline_star_rate_24)
         } else {
-            favItem.icon = resources.getDrawable(R.drawable.ic_baseline_star_outline_24)
+            favItem.setIcon(R.drawable.ic_baseline_star_outline_24)
         }
         return true
     }
