@@ -1,18 +1,14 @@
 package com.dhbw.brainstorm
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
 import com.dhbw.brainstorm.adapter.ContributionsAdapter
 import com.dhbw.brainstorm.api.CommonClient
 import com.dhbw.brainstorm.api.ContributionClient
@@ -53,7 +49,7 @@ class RoomActivity : AppCompatActivity() {
         setContentView(R.layout.activity_room)
         roomId = intent.getIntExtra("roomId", -1)
         validateRoomId(roomId)
-        adapter = ContributionsAdapter()
+        adapter = ContributionsAdapter(applicationContext, this)
         contributionList.adapter = adapter
         nextBtn.setOnClickListener {
             upgradeRoomState()
@@ -135,12 +131,11 @@ class RoomActivity : AppCompatActivity() {
         val dialog = Dialog(this)
 
         dialog.setContentView(R.layout.dialog_add_contribution)
-        dialog.submitBtnNewContributionDialog.setOnClickListener {
-            val editText = dialog.editTextNewContributionDialog
+        dialog.submitBtnNewCommentDialog.setOnClickListener {
+            val editText = dialog.editTextNewCommentDialog
 
             val contentNewContribution = editText.text.toString()
             dialog.dismiss()
-            Toast.makeText(applicationContext, "submitted", Toast.LENGTH_SHORT).show()
 
             addNewContribution(roomId, contentNewContribution)
         }
@@ -149,7 +144,6 @@ class RoomActivity : AppCompatActivity() {
     }
 
     private fun addNewContribution(roomId: Int, content: String) {
-        Toast.makeText(applicationContext, "adding new contrib ...", Toast.LENGTH_SHORT).show()
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BASIC
         val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
@@ -167,16 +161,10 @@ class RoomActivity : AppCompatActivity() {
                 response: Response<String>
             ) {
 
-                if (response.code() == 200) {
+                if (response.code() != 200) {
                     Toast.makeText(
                         applicationContext,
-                        "Added new Contribution: " + content,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    Toast.makeText(
-                        applicationContext,
-                        "forbidden to add new contrib",
+                        "Something went wrong. Please try again or come back later.",
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -319,8 +307,8 @@ class RoomActivity : AppCompatActivity() {
                                     var room =
                                         Gson().fromJson(message.content, Room::class.java)
                                     runOnUiThread {
-                                        if(adapter.room.state != room.state){
-                                            adapter = ContributionsAdapter()
+                                        if (adapter.room.state != room.state) {
+                                            adapter = ContributionsAdapter(applicationContext, this)
                                             contributionList.adapter = adapter
 
                                             // TODO if room.state == RoomState.Done -> Intent auf ResultActivity
@@ -329,6 +317,11 @@ class RoomActivity : AppCompatActivity() {
 
                                         roomHeadline.text = room.topic
                                         roomDescription.text = room.description
+                                        when (room.state) {
+                                            RoomState.CREATE -> roomPhaseText.text = "Create-Phase"
+                                            RoomState.EDIT -> roomPhaseText.text = "Edit-Phase"
+                                            RoomState.DONE -> roomPhaseText.text = "Done-Phase"
+                                        }
                                     }
                                 }
                                 "mod-update" -> {

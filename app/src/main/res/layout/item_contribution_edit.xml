@@ -22,30 +22,30 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_margin="10dp">
             <ImageButton
-                android:id="@+id/upVoteComment"
+                android:id="@+id/upVoteContribution"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_keyboard_arrow_up_24"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/commentVotes"
+                app:layout_constraintBottom_toTopOf="@id/contributionVotes"
                 android:background="@color/buttonGrey"/>
             <TextView
-                android:id="@+id/commentVotes"
+                android:id="@+id/contributionVotes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@id/upVoteComment"
-                app:layout_constraintBottom_toBottomOf="@id/downVoteComment"
-                app:layout_constraintStart_toStartOf="@id/downVoteComment"
-                app:layout_constraintEnd_toEndOf="@id/downVoteComment"
+                app:layout_constraintTop_toTopOf="@id/upVoteContribution"
+                app:layout_constraintBottom_toBottomOf="@id/downVoteContribution"
+                app:layout_constraintStart_toStartOf="@id/downVoteContribution"
+                app:layout_constraintEnd_toEndOf="@id/downVoteContribution"
                 android:text="0"
                 android:textSize="20sp"/>
             <ImageButton
-                android:id="@+id/downVoteComment"
+                android:id="@+id/downVoteContribution"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                app:layout_constraintTop_toBottomOf="@id/commentVotes"
+                app:layout_constraintTop_toBottomOf="@id/contributionVotes"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:background="@color/buttonGrey"/>
@@ -91,15 +91,17 @@
             app:layout_constraintBottom_toTopOf="@id/commentArea"
             android:layout_margin="10dp"
             android:text="Kommentare (0)"/>
+
         <ImageButton
+            android:id="@+id/addCommentButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_add_comment_24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/commentArea"
+            android:layout_margin="10dp"
             android:background="@color/buttonGrey"
-            android:layout_margin="10dp"/>
+            android:src="@drawable/ic_baseline_add_comment_24"
+            app:layout_constraintBottom_toTopOf="@id/commentArea"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/commentArea"
             android:layout_width="match_parent"

@@ -83,6 +83,7 @@
             app:layout_constraintTop_toBottomOf="@+id/roomHeadline" />
 
         <TextView
+            android:id="@+id/roomPhaseText"
             style="@style/textViewDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -104,15 +105,15 @@
         android:backgroundTint="@color/lightGreen"
         android:onClick="dialogAddNewContribution"/>
 
-    <Button
-        android:id="@+id/nextBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableEnd="@drawable/ic_baseline_skip_next_24"
-        android:text="Edit"
-        app:layout_constraintTop_toTopOf="@id/guidelineHorizontalText"
-        app:layout_constraintEnd_toEndOf="@id/guidelineVerticalRight"
-        app:layout_constraintBottom_toBottomOf="@id/guidelineHorizontalButtonsTop"/>
+        <Button
+            android:id="@+id/nextBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_baseline_skip_next_24"
+            android:text="Next"
+            app:layout_constraintBottom_toBottomOf="@id/guidelineHorizontalButtonsTop"
+            app:layout_constraintEnd_toEndOf="@id/guidelineVerticalRight"
+            app:layout_constraintTop_toTopOf="@id/guidelineHorizontalText" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contributionArea"
