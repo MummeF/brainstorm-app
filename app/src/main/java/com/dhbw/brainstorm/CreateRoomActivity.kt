@@ -49,10 +49,10 @@ class CreateRoomActivity : AppCompatActivity() {
 
     private fun toggleRoomPasswordVisibility(){
         if(roomPasswordHeader.visibility == View.VISIBLE){
-            roomPasswordHeader.visibility = View.INVISIBLE
-            roomPasswordDescription.visibility = View.INVISIBLE
-            roomPasswordInputFieldBackground.visibility = View.INVISIBLE
-            roomPasswordInputField.visibility = View.INVISIBLE
+            roomPasswordHeader.visibility = View.GONE
+            roomPasswordDescription.visibility = View.GONE
+            roomPasswordInputFieldBackground.visibility = View.GONE
+            roomPasswordInputField.visibility = View.GONE
             roomPasswordVisible = false
             toggleCreateButtonConstraint()
         }

@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Brainstorm</string>
+    <string name="createRoomLabel">Create Room</string>
+    <string name="topicLabel">Topic</string>
+    <string name="commentNumber">Comments (%d)</string>
+    <string name="topicDescriptionLabel">Set a Topic for your Room</string>
+    <string name="descriptionLabel">Description</string>
+    <string name="descriptionDescriptionLabel">Describe your Topic with few words</string>
+    <string name="moderatorPasswordLabel">Moderator Password</string>
+    <string name="moderatorPasswordDescriptionLabel">Set a Password, so you can recover your moderator rights after leaving</string>
+    <string name="passwordLabel">Password</string>
+    <string name="publicRoomLabel">Public Room</string>
+    <string name="roomPasswordLabel">Room Password</string>
+    <string name="roomPasswordDescriptionLabel">Set a Password for your room, so only your Colleagues can join</string>
+    <string name="passwordOptionalLabel">Password (optional)</string>
+    <string name="createAndJoinLabel">Create and join</string>
+    <string name="createNewRoomOrJoinLabel">Create a new Room, or join an existing</string>
+    <string name="createNewRoomLabel">Create a new Room</string>
+    <string name="joinExistingRoom">Join an existing Room</string>
+    <string name="welcomeToBrainstormLabel">Welcome to Brainstorm!</string>
+    <string name="myFavouritesLabel">My Favourites</string>
+    <string name="joinRoomLabel">Join Room</string>
+    <string name="enterRoomIdLabel">Enter Room Id</string>
+    <string name="joinLabel">Join</string>
+    <string name="publicRoomsLabel">Public Rooms</string>
+    <string name="nextLabel">Next</string>
+    <string name="createPhaseLabel">Create Phase</string>
+    <string name="nameOfTheRoomLabel">Name of the Room</string>
+    <string name="resultLabel">Result</string>
+</resources>

@@ -5,5 +5,31 @@
     <string name="wsSub" translatable="false">/app/subscribe</string>
     <string name="wsUnSub" translatable="false">/app/unsubscribe</string>
     <string name="wsTopic" translatable="false">/user/topic/room</string>
+    <string name="createRoomLabel">Raum erstellen</string>
     <string name="commentNumber">Kommentare (%d)</string>
+    <string name="topicLabel">Thema</string>
+    <string name="topicDescriptionLabel">Lege ein Thema für deinen Raum fest</string>
+    <string name="descriptionLabel">Beschreibung</string>
+    <string name="descriptionDescriptionLabel">Beschreibe dein Thema in wenigen Worten</string>
+    <string name="moderatorPasswordLabel">Moderator Passwort</string>
+    <string name="moderatorPasswordDescriptionLabel">Setze ein Passwort, mit dem du die Moderatorrechte anfordern kannst, falls diese verloren gehen!</string>
+    <string name="passwordLabel">Passwort</string>
+    <string name="publicRoomLabel">Öffentlicher Raum</string>
+    <string name="roomPasswordLabel">Raum Passwort</string>
+    <string name="roomPasswordDescriptionLabel">Setze ein Passwort für den Raum, damit nur deine Kollegen dem Raum beitreten können!</string>
+    <string name="passwordOptionalLabel">Passwort (optional)</string>
+    <string name="createAndJoinLabel">Erstellen und beitreten</string>
+    <string name="createNewRoomOrJoinLabel">Erstelle einen Raum, oder trete einem bestehenden Raum bei</string>
+    <string name="createNewRoomLabel">Raum erstellen</string>
+    <string name="joinExistingRoom">Raum beitreten</string>
+    <string name="welcomeToBrainstormLabel">Willkommen bei Brainstorm!</string>
+    <string name="myFavouritesLabel">Meine Favoriten</string>
+    <string name="joinRoomLabel">Raum beitreten</string>
+    <string name="enterRoomIdLabel">Raum Id eingeben</string>
+    <string name="joinLabel">Beitreten</string>
+    <string name="publicRoomsLabel">Öffentliche Räume</string>
+    <string name="nextLabel">Weiter</string>
+    <string name="createPhaseLabel">Create-Phase</string>
+    <string name="nameOfTheRoomLabel">Name des Raums</string>
+    <string name="resultLabel">Ergebnis</string>
 </resources>
