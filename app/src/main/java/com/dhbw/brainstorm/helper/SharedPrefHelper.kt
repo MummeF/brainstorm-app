@@ -2,14 +2,10 @@ package com.dhbw.brainstorm.helper
 
 import android.app.Activity
 import android.content.Context
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.dhbw.brainstorm.api.model.Room
 import com.dhbw.brainstorm.api.model.RoomState
 import java.util.*
-import javax.security.auth.Subject
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 import kotlin.collections.HashSet
 
 class SharedPrefHelper {
@@ -98,15 +94,13 @@ class SharedPrefHelper {
             return moderatorId!!
         }
 
-        fun addFavorite(activity: Activity, roomId: Int, subject: String) {
+        fun addFavorite(activity: Activity, roomId: Int, topic: String) {
             val sharedPref = activity.getSharedPreferences(FAVORITE_SHARED_PREF, Context.MODE_PRIVATE)
 
             with(sharedPref.edit()) {
                 val favoriteList =
                     HashSet(sharedPref.getStringSet(FAVORITE_LIST_SHARED_PREF, HashSet<String>())!!)
-                favoriteList.add(roomId.toString())
-                putStringSet(FAVORITE_LIST_SHARED_PREF, favoriteList)
-                favoriteList.add("$roomId|$subject")
+                favoriteList.add("$roomId|$topic")
                 putStringSet(FAVORITE_LIST_SHARED_PREF, favoriteList)
                 apply()
             }
@@ -117,9 +111,6 @@ class SharedPrefHelper {
             var response = false;
             with(sharedPref.edit()) {
                 val favoriteList =
-                    HashSet(sharedPref.getStringSet(FAVORITE_LIST_SHARED_PREF, HashSet<String>())!!)
-                response = favoriteList.remove(roomId.toString())
-                putStringSet(FAVORITE_LIST_SHARED_PREF, favoriteList)
                     HashSet(sharedPref.getStringSet(FAVORITE_LIST_SHARED_PREF, HashSet<String>())!!)
                 favoriteList.forEach { room ->
                     if (room!!.startsWith(roomId.toString(), true)) {

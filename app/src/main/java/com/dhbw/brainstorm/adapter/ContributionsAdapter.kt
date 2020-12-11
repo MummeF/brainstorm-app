@@ -172,6 +172,8 @@ class ContributionsAdapter(private var context: Context, private var activity: A
                             item.upVoteContribution.setColorFilter(R.color.buttonGrey)
                         }
                     }
+
+
                 }
                 RoomState.DONE -> {
                     item.commentsHeading.text = context.getString(R.string.commentNumber, contribution.comments.size)

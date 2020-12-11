@@ -42,8 +42,8 @@ class  ResultActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.itemShareResult -> {
                 val i = Intent(Intent.ACTION_SEND)
-                i.setType("text/plain")
-                i.putExtra(Intent.EXTRA_TEXT, getString(R.string.backendUrl) + "/room/" + roomId)
+                i.type = "text/plain"
+                i.putExtra(Intent.EXTRA_TEXT, getString(R.string.frontendUrl) + "/result/" + roomId)
                 i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.checkoutThisBrainstormRoomLabel))
                 startActivity(Intent.createChooser(i, getString(R.string.shareLinkToRoomVia)))
             }

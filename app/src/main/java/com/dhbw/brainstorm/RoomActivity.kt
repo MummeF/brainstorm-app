@@ -39,6 +39,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
+import kotlin.concurrent.thread
 
 
 class RoomActivity : AppCompatActivity() {
@@ -48,6 +49,7 @@ class RoomActivity : AppCompatActivity() {
     private lateinit var stomp: StompClient
     private lateinit var topic: Disposable
     private var roomId: Int = -1
+    private var roomTopic: String = ""
     private var isModerator: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,26 +109,12 @@ class RoomActivity : AppCompatActivity() {
             override fun onResponse(
                 call: Call<String>,
                 response: Response<String>
-            ) {
-                if (response.code() == 200) {
-                } else {
-                    Toast.makeText(
-                        applicationContext,
-                        "Something went wrong.",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
+            ) { }
 
-            override fun onFailure(call: Call<String>, t: Throwable) {
-                Toast.makeText(
-                    applicationContext,
-                    "Something went wrong.",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+            override fun onFailure(call: Call<String>, t: Throwable) { }
 
         })
+
 
     }
 
@@ -140,14 +128,23 @@ class RoomActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.itemShareCreate -> {
                 val i = Intent(Intent.ACTION_SEND)
-                i.setType("text/plain")
-                i.putExtra(Intent.EXTRA_TEXT, getString(R.string.backendUrl) + "/room/" + roomId)
+                i.type = "text/plain"
+                i.putExtra(Intent.EXTRA_TEXT, getString(R.string.frontendUrl) + "/room/" + roomId)
                 i.putExtra(Intent.EXTRA_SUBJECT, "Check out this Brainstorm room")
                 startActivity(Intent.createChooser(i, "Share link to room via"))
             }
             R.id.itemRequestModerator -> {
                 dialogRequestModeratorRights()
             }
+            R.id.itemMarkFavorite -> {
+                SharedPrefHelper.addFavorite(this, roomId, roomTopic)
+                Toast.makeText(
+                    applicationContext,
+                    "Room added to favorites",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
             R.id.itemEditRoomSettings -> {
                 val intent =
                     Intent(this, RoomSettings::class.java)
@@ -194,30 +191,21 @@ class RoomActivity : AppCompatActivity() {
             .create(ContributionClient::class.java)
         var requestBody: RequestBody =
             content.toRequestBody("text/plain".toMediaTypeOrNull())
-        client.addContribution(roomId, requestBody).enqueue(object : Callback<String> {
-            override fun onResponse(
-                call: Call<String>,
-                response: Response<String>
-            ) {
+        thread {
+            client.addContribution(roomId, requestBody).enqueue(object : Callback<String> {
+                override fun onResponse(
+                    call: Call<String>,
+                    response: Response<String>
+                ) {
 
-                if (response.code() != 200) {
-                    Toast.makeText(
-                        applicationContext,
-                        getString(R.string.somethingWentWrongLabel),
-                        Toast.LENGTH_LONG
-                    ).show()
                 }
-            }
 
-            override fun onFailure(call: Call<String>, t: Throwable) {
-                Toast.makeText(
-                    applicationContext,
-                    getString(R.string.somethingWentWrongLabel),
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+                override fun onFailure(call: Call<String>, t: Throwable) {
 
-        })
+                }
+
+            })
+        }
     }
 
     fun validateRoomId(roomId: Int) {

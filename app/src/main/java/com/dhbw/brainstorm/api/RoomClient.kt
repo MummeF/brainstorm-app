@@ -2,6 +2,7 @@ package com.dhbw.brainstorm.api
 
 import com.dhbw.brainstorm.api.model.Room
 import com.dhbw.brainstorm.api.model.RoomState
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -15,8 +16,8 @@ interface RoomClient {
     @POST("/api/setRoomState")
     fun setRoomState(@Body state: RoomState, @Query("roomId") roomId: Int): Call<Boolean>
 
-    @PUT("/api/updateRoom")
-    fun updateRoom(@Body state: Room): Call<Boolean>
+    @POST("/api/updateRoom")
+    fun updateRoom(@Body room: Room): Call<Boolean>
 
     @DELETE("/api/deleteRoom")
     fun deleteRoom(
@@ -41,7 +42,7 @@ interface RoomClient {
     ): Call<String>
 
     @POST("/api/validatePassword")
-    fun validatePassword(@Query("roomId") roomId: Int, @Body password: String): Call<Boolean>
+    fun validatePassword(@Query("roomId") roomId: Int, @Body password: RequestBody): Call<Boolean>
 
     @POST("/api/validateModeratorPassword")
     fun validateModeratorPassword(

@@ -32,6 +32,7 @@
     <string name="createPhaseLabel">Create-Phase</string>
     <string name="nameOfTheRoomLabel">Name des Raums</string>
     <string name="resultLabel">Ergebnis</string>
+    <string name="frontendUrl" translatable="false">https://brainstorm-dhbw.herokuapp.com</string>
     <string name="joinFavouritesLabel">Favoriten beitreten</string>
     <string name="roomListLabel">Raumliste</string>
     <string name="shareRoomLinkLabel">Link Teilen</string>

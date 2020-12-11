@@ -18,6 +18,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 
 class RoomSettings : AppCompatActivity() {
     private var roomId = -1
@@ -63,7 +64,8 @@ class RoomSettings : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<Room>, t: Throwable) {
-                Toast.makeText(applicationContext, "problem with the API Call", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "problem with the API Call", Toast.LENGTH_SHORT)
+                    .show()
             }
 
         })
@@ -107,7 +109,7 @@ class RoomSettings : AppCompatActivity() {
 
     fun submitChanges() {
         val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BASIC
+        interceptor.level = HttpLoggingInterceptor.Level.BODY
         val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
         val client = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
@@ -124,23 +126,14 @@ class RoomSettings : AppCompatActivity() {
                 response: Response<Boolean>
             ) {
                 if (response.code() == 200) {
-                    Toast.makeText(applicationContext, "changes applied", Toast.LENGTH_SHORT).show()
                     goToRoom()
                 } else {
-                    Toast.makeText(
-                        applicationContext,
-                        "could not apply changes",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    goToRoom()
                 }
             }
 
             override fun onFailure(call: Call<Boolean>, t: Throwable) {
-                Toast.makeText(
-                    applicationContext,
-                    "Something went wrong with the API Call",
-                    Toast.LENGTH_SHORT
-                ).show()
+                goToRoom()
             }
 
         })
@@ -153,9 +146,11 @@ class RoomSettings : AppCompatActivity() {
             roomSettingsLayout.visibility = View.VISIBLE
         }
     }
+
     // go back to home Activity
     fun goToRoom() {
         var intent = Intent(this, RoomActivity::class.java)
+        intent.putExtra(ROOM_ID_INTENT, roomId)
         startActivity(intent)
     }
 }
