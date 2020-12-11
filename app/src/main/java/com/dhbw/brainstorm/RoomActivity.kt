@@ -86,13 +86,10 @@ class RoomActivity : AppCompatActivity() {
 
         dialog.setContentView(R.layout.dialog_request_mod_rights)
         dialog.submitBtnReqModIdDialog.setOnClickListener {
-            val editText = dialog.editTextModeratorId
+            val editText = dialog.editTextModeratorPassword
 
             val contentNewContribution = editText.text.toString()
-            dialog.dismiss()
-            Toast.makeText(applicationContext, "submitted", Toast.LENGTH_SHORT).show()
-
-            validateModeratorPassword(contentNewContribution)
+            validateModeratorPassword(contentNewContribution, dialog)
         }
         dialog.show()
     }
@@ -314,12 +311,7 @@ class RoomActivity : AppCompatActivity() {
 
     }
 
-    fun validateModeratorPassword(password: String) {
-        // check password
-        //if true
-        //setModeratorId(SharedPrefHelper.bla)
-        //else
-        //Toast: Mod password incorrect
+    fun validateModeratorPassword(password: String, dialog: Dialog) {
 
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BASIC
@@ -339,7 +331,8 @@ class RoomActivity : AppCompatActivity() {
                     if (response.code() == 200) {
                         if (response.body()!!) {
                             setModeratorId()
-                        }else {
+                            dialog.dismiss();
+                        } else {
                             Toast.makeText(
                                 applicationContext,
                                 "Moderator ID was not right",
@@ -347,13 +340,13 @@ class RoomActivity : AppCompatActivity() {
                             ).show()
                         }
                     } else {
-                            Toast.makeText(
-                                applicationContext,
-                                "Something went wrong",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+                        Toast.makeText(
+                            applicationContext,
+                            "Something went wrong",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
+                }
 
                 override fun onFailure(call: Call<Boolean>, t: Throwable) {
                     Toast.makeText(
@@ -365,7 +358,7 @@ class RoomActivity : AppCompatActivity() {
             })
     }
 
-    fun setModeratorId(){
+    fun setModeratorId() {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BASIC
         val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
@@ -439,7 +432,7 @@ class RoomActivity : AppCompatActivity() {
                             }
                             Toast.makeText(
                                 applicationContext,
-                                "Moderator ID was not right",
+                                "Incorrect moderator password!",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -545,7 +538,6 @@ class RoomActivity : AppCompatActivity() {
                             }
                         })
 
-                    println("subscribed")
                     stomp.send(
                         getString(R.string.wsSub),
                         Gson().toJson(SubscribeMessage(roomId))

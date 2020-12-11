@@ -2,7 +2,14 @@ package com.dhbw.brainstorm.helper
 
 import android.app.Activity
 import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
+import com.dhbw.brainstorm.api.model.Room
+import com.dhbw.brainstorm.api.model.RoomState
 import java.util.*
+import javax.security.auth.Subject
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 import kotlin.collections.HashSet
 
 class SharedPrefHelper {
@@ -91,13 +98,15 @@ class SharedPrefHelper {
             return moderatorId!!
         }
 
-        fun addFavorite(activity: Activity, roomId: Int) {
+        fun addFavorite(activity: Activity, roomId: Int, subject: String) {
             val sharedPref = activity.getSharedPreferences(FAVORITE_SHARED_PREF, Context.MODE_PRIVATE)
 
             with(sharedPref.edit()) {
                 val favoriteList =
-                    HashSet(sharedPref.getStringSet("favoriteList", HashSet<String>())!!)
+                    HashSet(sharedPref.getStringSet(FAVORITE_LIST_SHARED_PREF, HashSet<String>())!!)
                 favoriteList.add(roomId.toString())
+                putStringSet(FAVORITE_LIST_SHARED_PREF, favoriteList)
+                favoriteList.add("$roomId|$subject")
                 putStringSet(FAVORITE_LIST_SHARED_PREF, favoriteList)
                 apply()
             }
@@ -111,15 +120,26 @@ class SharedPrefHelper {
                     HashSet(sharedPref.getStringSet(FAVORITE_LIST_SHARED_PREF, HashSet<String>())!!)
                 response = favoriteList.remove(roomId.toString())
                 putStringSet(FAVORITE_LIST_SHARED_PREF, favoriteList)
+                    HashSet(sharedPref.getStringSet(FAVORITE_LIST_SHARED_PREF, HashSet<String>())!!)
+                favoriteList.forEach { room ->
+                    if (room!!.startsWith(roomId.toString(), true)) {
+                        response = favoriteList.remove(room)
+                    }
+                }
+                putStringSet(FAVORITE_LIST_SHARED_PREF, favoriteList)
                 apply()
             }
             return response;
         }
 
-        fun getFavorites(activity: Activity): List<Int> {
+        fun getFavorites(activity: Activity): List<Room> {
             val sharedPref = activity.getSharedPreferences(FAVORITE_SHARED_PREF, Context.MODE_PRIVATE)
             val favoriteList = HashSet(sharedPref.getStringSet(FAVORITE_LIST_SHARED_PREF, HashSet<String>())!!)
-            return favoriteList.map { roomIdAsString -> roomIdAsString.toInt() }
+            var result = favoriteList.map { favorite ->
+                var tmp = favorite.split("|")
+                Room(ArrayList(), "", tmp[0].toInt(), "", false, RoomState.CREATE, tmp[1])
+            }
+            return result
         }
     }
 

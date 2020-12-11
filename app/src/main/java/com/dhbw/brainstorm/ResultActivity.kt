@@ -75,7 +75,11 @@ class  ResultActivity : AppCompatActivity() {
 
                     if (room != null) {
                         showRoom()
-                        adapter.update(room)
+                        runOnUiThread{
+                            adapter.update(room)
+                            roomHeadline.text = room.topic
+                            roomDescription.text = room.description
+                        }
                     } else {
                         Toast.makeText(applicationContext, "no room found", Toast.LENGTH_SHORT)
                             .show()
@@ -93,14 +97,19 @@ class  ResultActivity : AppCompatActivity() {
     }
 
     fun showRoom() {
-
         runOnUiThread {
-            // Stuff that updates the UI
             roomLayout.visibility = View.VISIBLE
             roomProgress.visibility = View.GONE
         }
+    }
 
-
+    override fun onBackPressed() {
+        super.onBackPressed()
+        goToHome()
+    }
+    fun goToHome() {
+        var intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 
     fun hideRoom() {

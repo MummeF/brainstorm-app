@@ -41,6 +41,11 @@ class MainActivity : AppCompatActivity() {
             var intent = Intent(this, JoinActivity::class.java)
             startActivity(intent)
         }
+
+        showFavouriteRoomsButton.setOnClickListener {
+            var intent = Intent(this, FavoriteActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     fun checkBackend() {

@@ -96,9 +96,13 @@ class JoinActivity : AppCompatActivity(){
 
     override fun onBackPressed() {
         super.onBackPressed()
-        println("HIIIEIRRR")
+        goToHome()
     }
-
+    // go back to home Activity
+    fun goToHome() {
+        var intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+    }
 
     public fun joinRoom(roomId: Int){
         val intent = Intent(this, RoomActivity::class.java)
