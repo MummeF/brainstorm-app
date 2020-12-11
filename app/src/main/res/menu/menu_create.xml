@@ -8,7 +8,7 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/itemMarkFavorite"
-        android:icon="@drawable/ic_baseline_star_rate_24"
+        android:icon="@drawable/ic_baseline_star_outline_24"
         android:title="@string/markAsFavouriteLabel"
         app:showAsAction="always"/>
     <item

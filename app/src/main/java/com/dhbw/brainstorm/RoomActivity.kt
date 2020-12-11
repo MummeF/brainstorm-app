@@ -119,9 +119,10 @@ class RoomActivity : AppCompatActivity() {
             override fun onResponse(
                 call: Call<String>,
                 response: Response<String>
-            ) { }
+            ) {
+            }
 
-            override fun onFailure(call: Call<String>, t: Throwable) { }
+            override fun onFailure(call: Call<String>, t: Throwable) {}
 
         })
 
@@ -147,12 +148,26 @@ class RoomActivity : AppCompatActivity() {
                 dialogRequestModeratorRights()
             }
             R.id.itemMarkFavorite -> {
-                SharedPrefHelper.addFavorite(this, roomId, roomTopic)
-                Toast.makeText(
-                    applicationContext,
-                    "Room added to favorites",
-                    Toast.LENGTH_SHORT
-                ).show()
+                var favRoom = SharedPrefHelper.getFavorites(this)
+                    .filter { room: Room -> room.id == roomId.toInt() }
+                print(favRoom)
+                print(SharedPrefHelper.getFavorites(this))
+                if (favRoom != null) {
+                    SharedPrefHelper.addFavorite(this, roomId, roomTopic)
+                    Toast.makeText(
+                        applicationContext,
+                        "Room added to favorites",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    SharedPrefHelper.removeFavorite(this, roomId)
+                    Toast.makeText(
+                        applicationContext,
+                        "Room removed from favorites",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                invalidateOptionsMenu()
             }
 
             R.id.itemEditRoomSettings -> {
@@ -168,8 +183,16 @@ class RoomActivity : AppCompatActivity() {
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         val reqModItem = menu.findItem(R.id.itemRequestModerator)
         val settingsItem = menu.findItem(R.id.itemEditRoomSettings)
-        // reqModItem.setVisible(!isModerator)
-        // settingsItem.setVisible(isModerator)
+        val favItem = menu.findItem(R.id.itemMarkFavorite)
+        reqModItem.setVisible(!isModerator)
+        settingsItem.setVisible(isModerator)
+        var roomIsFavorite =
+            SharedPrefHelper.getFavorites(this).filter { room: Room -> room.id == roomId }
+        if (roomIsFavorite != null) {
+            favItem.icon = resources.getDrawable(R.drawable.ic_baseline_star_rate_24)
+        } else {
+            favItem.icon = resources.getDrawable(R.drawable.ic_baseline_star_outline_24)
+        }
         return true
     }
 
@@ -476,10 +499,10 @@ class RoomActivity : AppCompatActivity() {
 
                     if (response.code() == 200) {
                         isModerator = response.body()!!
+                        invalidateOptionsMenu()
                         if (isModerator) {
                             runOnUiThread {
                                 nextBtn.visibility = View.VISIBLE
-
                             }
 
                             Toast.makeText(
