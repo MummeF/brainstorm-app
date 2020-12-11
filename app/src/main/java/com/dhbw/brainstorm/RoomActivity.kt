@@ -42,10 +42,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
-// constants for accessing intent data
-const val ROOM_ID_INTENT = "roomId"
 
 class RoomActivity : AppCompatActivity() {
+
+
+    // constants for accessing intent data
+    val ROOM_ID_INTENT = "roomId"
     private lateinit var adapter: ContributionsAdapter
     private lateinit var stompConnection: Disposable
     private lateinit var stomp: StompClient
@@ -185,7 +187,7 @@ class RoomActivity : AppCompatActivity() {
         interceptor.level = HttpLoggingInterceptor.Level.BASIC
         val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
         val client = Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(ScalarsConverterFactory.create())
             .client(httpClient)
             .baseUrl(getString(R.string.backendUrl))
             .build()

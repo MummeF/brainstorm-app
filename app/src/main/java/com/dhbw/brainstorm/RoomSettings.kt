@@ -16,6 +16,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RoomSettings : AppCompatActivity() {
     private var roomId = -1
+    val ROOM_ID_INTENT = "roomId"
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room_settings)
