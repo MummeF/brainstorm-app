@@ -71,7 +71,7 @@ class JoinActivity : AppCompatActivity(){
                 } else {
                     Toast.makeText(
                         applicationContext,
-                        "Something went wrong. Please try again or come back later.",
+                        getString(R.string.somethingWentWrongLabel),
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -82,7 +82,7 @@ class JoinActivity : AppCompatActivity(){
                 t.printStackTrace()
                 Toast.makeText(
                     applicationContext,
-                    "Something went wrong. Please try again or come back later.",
+                    getString(R.string.somethingWentWrongLabel),
                     Toast.LENGTH_LONG
                 ).show()
             }

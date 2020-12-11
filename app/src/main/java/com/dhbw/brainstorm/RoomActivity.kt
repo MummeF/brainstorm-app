@@ -195,7 +195,7 @@ class RoomActivity : AppCompatActivity() {
                 if (response.code() != 200) {
                     Toast.makeText(
                         applicationContext,
-                        "Something went wrong. Please try again or come back later.",
+                        getString(R.string.somethingWentWrongLabel),
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -204,7 +204,7 @@ class RoomActivity : AppCompatActivity() {
             override fun onFailure(call: Call<String>, t: Throwable) {
                 Toast.makeText(
                     applicationContext,
-                    "Something went wrong. Please try again or come back later.",
+                    getString(R.string.somethingWentWrongLabel),
                     Toast.LENGTH_LONG
                 ).show()
             }
@@ -244,7 +244,7 @@ class RoomActivity : AppCompatActivity() {
                 } else {
                     Toast.makeText(
                         applicationContext,
-                        "Something went wrong. Please try again or come back later.",
+                        getString(R.string.somethingWentWrongLabel),
                         Toast.LENGTH_LONG
                     ).show()
                     goToHome()
@@ -255,7 +255,7 @@ class RoomActivity : AppCompatActivity() {
                 t.printStackTrace()
                 Toast.makeText(
                     applicationContext,
-                    "Something went wrong. Please try again or come back later.",
+                    getString(R.string.somethingWentWrongLabel),
                     Toast.LENGTH_LONG
                 ).show()
                 goToHome()
@@ -291,7 +291,7 @@ class RoomActivity : AppCompatActivity() {
 
                     Toast.makeText(
                         applicationContext,
-                        "Something went wrong. Please try again or come back later.",
+                        getString(R.string.somethingWentWrongLabel),
                         Toast.LENGTH_LONG
                     ).show()
                     goToHome()
@@ -301,7 +301,7 @@ class RoomActivity : AppCompatActivity() {
             override fun onFailure(call: Call<Boolean>, t: Throwable) {
                 Toast.makeText(
                     applicationContext,
-                    "Something went wrong. Please try again or come back later.",
+                    getString(R.string.somethingWentWrongLabel),
                     Toast.LENGTH_LONG
                 ).show()
                 goToHome()
@@ -531,7 +531,7 @@ class RoomActivity : AppCompatActivity() {
                             runOnUiThread {
                                 Toast.makeText(
                                     applicationContext,
-                                    "Something went wrong. Please try again or come back later.",
+                                    getString(R.string.somethingWentWrongLabel),
                                     Toast.LENGTH_LONG
                                 ).show()
                                 goToHome()
@@ -551,7 +551,7 @@ class RoomActivity : AppCompatActivity() {
                             error.printStackTrace()
                             Toast.makeText(
                                 applicationContext,
-                                "Something went wrong. Please try again or come back later.",
+                                getString(R.string.somethingWentWrongLabel),
                                 Toast.LENGTH_LONG
                             ).show()
                             goToHome()
@@ -609,7 +609,7 @@ class RoomActivity : AppCompatActivity() {
                 error.printStackTrace()
                 Toast.makeText(
                     applicationContext,
-                    "Something went wrong. Please try again or come back later.",
+                    getString(R.string.somethingWentWrongLabel),
                     Toast.LENGTH_LONG
                 ).show()
                 goToHome()

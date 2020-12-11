@@ -87,6 +87,7 @@ class CreateRoomActivity : AppCompatActivity() {
 
         if(topic != "" && description != "" && moderatorPassword!= ""){
             createRoom(description, isRoomPublic, SharedPrefHelper.getModeratorId(this), topic, roomPassword, moderatorPassword)
+            showProgressBar()
         }
     }
 
@@ -120,7 +121,7 @@ class CreateRoomActivity : AppCompatActivity() {
                 } else {
                     Toast.makeText(
                         applicationContext,
-                        "Something went wrong. Please try again or come back later.",
+                        getString(R.string.somethingWentWrongLabel),
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -130,7 +131,7 @@ class CreateRoomActivity : AppCompatActivity() {
                 t.printStackTrace()
                 Toast.makeText(
                     applicationContext,
-                    "Something went wrong. Please try again or come back later.",
+                    getString(R.string.somethingWentWrongLabel),
                     Toast.LENGTH_LONG
                 ).show()
             }
@@ -162,9 +163,10 @@ class CreateRoomActivity : AppCompatActivity() {
                 else {
                     Toast.makeText(
                         applicationContext,
-                        "Something went wrong. Please try again or come back later.",
+                        getString(R.string.somethingWentWrongLabel),
                         Toast.LENGTH_LONG
                     ).show()
+                    goToHome()
                 }
             }
 
@@ -172,9 +174,10 @@ class CreateRoomActivity : AppCompatActivity() {
                 t.printStackTrace()
                 Toast.makeText(
                     applicationContext,
-                    "Something went wrong. Please try again or come back later.",
+                    getString(R.string.somethingWentWrongLabel),
                     Toast.LENGTH_LONG
                 ).show()
+                goToHome()
             }
 
         })
@@ -203,9 +206,10 @@ class CreateRoomActivity : AppCompatActivity() {
                 else {
                     Toast.makeText(
                         applicationContext,
-                        "Something went wrong. Please try again or come back later.",
+                        getString(R.string.somethingWentWrongLabel),
                         Toast.LENGTH_LONG
                     ).show()
+                    goToHome()
                 }
             }
 
@@ -213,9 +217,10 @@ class CreateRoomActivity : AppCompatActivity() {
                 t.printStackTrace()
                 Toast.makeText(
                     applicationContext,
-                    "Something went wrong. Please try again or come back later.",
+                    getString(R.string.somethingWentWrongLabel),
                     Toast.LENGTH_LONG
                 ).show()
+                goToHome()
             }
 
         })
@@ -234,6 +239,12 @@ class CreateRoomActivity : AppCompatActivity() {
         val intent = Intent(this, RoomActivity::class.java)
         intent.putExtra("roomId", roomId)
         startActivity(intent)
+    }
+
+
+    fun showProgressBar(){
+        progressCreateRoom.visibility = View.VISIBLE
+        wholeLayoutCreateRoom.visibility = View.GONE
     }
 }
 

@@ -44,11 +44,11 @@ class  ResultActivity : AppCompatActivity() {
                 val i = Intent(Intent.ACTION_SEND)
                 i.setType("text/plain")
                 i.putExtra(Intent.EXTRA_TEXT, getString(R.string.backendUrl) + "/room/" + roomId)
-                i.putExtra(Intent.EXTRA_SUBJECT, "Check out this Brainstorm room")
-                startActivity(Intent.createChooser(i, "Share link to room via"))
+                i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.checkoutThisBrainstormRoomLabel))
+                startActivity(Intent.createChooser(i, getString(R.string.shareLinkToRoomVia)))
             }
             R.id.itemPrintResult -> {
-                Toast.makeText(applicationContext, "print result", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, getString(R.string.printResult), Toast.LENGTH_SHORT).show()
             }
         }
         return true
@@ -81,7 +81,7 @@ class  ResultActivity : AppCompatActivity() {
                             roomDescription.text = room.description
                         }
                     } else {
-                        Toast.makeText(applicationContext, "no room found", Toast.LENGTH_SHORT)
+                        Toast.makeText(applicationContext, getString(R.string.noRoomFoundLabel), Toast.LENGTH_SHORT)
                             .show()
                     }
                 } else {

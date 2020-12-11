@@ -43,5 +43,10 @@
     <string name="newCommentLabel">Neuer Kommentar</string>
     <string name="contentLabel">Inhalt</string>
     <string name="newContributionLabel">Neuer Beitrag</string>
-    <string name="typeModeratorPasswordLabel">Type Moderator Password</string>
+    <string name="typeModeratorPasswordLabel">Geben Sie das Moderatorpasswort ein</string>
+    <string name="somethingWentWrongLabel">Irgendwas ist schiefgelaufen. Bitte kommen Sie später wieder.</string>
+    <string name="checkoutThisBrainstormRoomLabel">Schau dir mal diesen Brainstorm Raum an</string>
+    <string name="shareLinkToRoomVia">Link teilen via</string>
+    <string name="printResult">Drucke Ergebnisse</string>
+    <string name="noRoomFoundLabel">Kein Raum gefunden</string>
 </resources>
