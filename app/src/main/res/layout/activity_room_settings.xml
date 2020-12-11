@@ -81,7 +81,7 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintBottom_toTopOf="@id/topicDescription"
-                        />
+                        android:layout_marginTop="20dp"/>
 
                     <TextView
                         android:id="@+id/topicDescription"
@@ -117,7 +117,7 @@
                         app:layout_constraintTop_toBottomOf="@id/topicInputFieldBackground"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        />
+                        app:layout_constraintBottom_toTopOf="@id/descriptionDescription"/>
 
                     <TextView
                         android:id="@+id/descriptionDescription"
@@ -127,7 +127,8 @@
                         style="@style/textViewDescription"
                         app:layout_constraintTop_toBottomOf="@id/descriptionHeader"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"/>
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/descriptionInputFieldBackground"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/descriptionInputFieldBackground"
