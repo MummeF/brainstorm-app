@@ -5,20 +5,20 @@
         android:id="@+id/itemShareCreate"
         android:icon="@drawable/ic_baseline_share_24"
         android:title="@string/shareRoomLinkLabel"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/itemMarkFavorite"
         android:icon="@drawable/ic_baseline_star_rate_24"
         android:title="@string/markAsFavouriteLabel"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
     <item
         android:id="@+id/itemRequestModerator"
         android:icon="@drawable/ic_baseline_gavel_24"
         android:title="@string/requestModeratorLabel"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/itemEditRoomSettings"
         android:icon="@drawable/ic_baseline_settings_24"
         android:title="@string/roomSettingsLabel"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 </menu>

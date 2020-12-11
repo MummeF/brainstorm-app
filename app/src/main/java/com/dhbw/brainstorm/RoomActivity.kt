@@ -73,11 +73,6 @@ class RoomActivity : AppCompatActivity() {
             dialogAddNewContribution()
         }
 
-        // add new comment
-        //newCommentBtn.setOnClickListener{
-        //   dialogAddNewComment()
-        //}
-
     }
 
 

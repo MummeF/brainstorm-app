@@ -50,4 +50,8 @@
     <string name="shareLinkToRoomVia">Link teilen via</string>
     <string name="printResult">Drucke Ergebnisse</string>
     <string name="noRoomFoundLabel">Kein Raum gefunden</string>
+    <string name="errorUpdateRoom">could not apply changes</string>
+    <string name="closedRoom">Room closed</string>
+    <string name="errorCloseRoom">Could not close Room</string>
+    <string name="appliedChanges">Changes applied</string>
 </resources>

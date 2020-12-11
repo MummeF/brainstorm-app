@@ -87,10 +87,10 @@ class RoomSettings : AppCompatActivity() {
                 response: Response<String>
             ) {
                 if (response.code() == 200) {
-                    Toast.makeText(applicationContext, "Room closed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, getString(R.string.closedRoom), Toast.LENGTH_SHORT).show()
                     goToRoom()
                 } else {
-                    Toast.makeText(applicationContext, "could not close Room", Toast.LENGTH_SHORT)
+                    Toast.makeText(applicationContext, getString(R.string.errorCloseRoom), Toast.LENGTH_SHORT)
                         .show()
                     goToRoom()
                 }
@@ -146,7 +146,6 @@ class RoomSettings : AppCompatActivity() {
             roomSettingsLayout.visibility = View.VISIBLE
         }
     }
-
     // go back to home Activity
     fun goToRoom() {
         var intent = Intent(this, RoomActivity::class.java)
