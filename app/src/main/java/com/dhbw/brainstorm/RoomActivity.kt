@@ -75,6 +75,8 @@ class RoomActivity : AppCompatActivity() {
             dialogAddNewContribution()
         }
 
+        invalidateOptionsMenu()
+
     }
 
 
