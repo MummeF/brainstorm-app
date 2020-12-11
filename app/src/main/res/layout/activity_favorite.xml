@@ -30,10 +30,11 @@
 
     <TextView
         android:id="@+id/joinRoomHeader"
-        style="@style/textViewHeaderStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Favoriten beitreten"
+        android:textAlignment="center"
+        android:text="@string/joinFavouritesLabel"
+        style="@style/textViewHeaderStyle"
         app:layout_constraintLeft_toLeftOf="@id/guidelineVerticalLeft"
         app:layout_constraintRight_toRightOf="@id/guidelineVerticalRight"
         app:layout_constraintTop_toTopOf="parent" />
@@ -41,10 +42,11 @@
 
     <TextView
         android:id="@+id/joinRoomPublicHeader"
-        style="@style/textViewHeaderStyleSmaller"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Raumliste"
+        android:text="@string/roomListLabel"
+        android:layout_marginTop="20dp"
+        style="@style/textViewHeaderStyleSmaller"
         app:layout_constraintLeft_toLeftOf="@id/guidelineVerticalLeft"
         app:layout_constraintRight_toRightOf="@id/guidelineVerticalRight"
         app:layout_constraintTop_toBottomOf="@+id/joinRoomHeader" />
@@ -52,7 +54,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintLeft_toLeftOf="@id/guidelineVerticalLeft"
         app:layout_constraintRight_toRightOf="@id/guidelineVerticalRight"
         app:layout_constraintTop_toBottomOf="@id/joinRoomPublicHeader"

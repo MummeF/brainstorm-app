@@ -27,4 +27,16 @@
     <string name="createPhaseLabel">Create Phase</string>
     <string name="nameOfTheRoomLabel">Name of the Room</string>
     <string name="resultLabel">Result</string>
+    <string name="joinFavouritesLabel">Join Favourites</string>
+    <string name="roomListLabel">Room List</string>
+    <string name="shareRoomLinkLabel">Share Room Link</string>
+    <string name="markAsFavouriteLabel">Mark As Favorite</string>
+    <string name="requestModeratorLabel">Request Moderator</string>
+    <string name="roomSettingsLabel">Room Settings</string>
+    <string name="shareRoomResultLabel">Share Room Result</string>
+    <string name="printRoomLabel">Print Room</string>
+    <string name="newCommentLabel">New Comment</string>
+    <string name="contentLabel">content</string>
+    <string name="newContributionLabel">New Contribution</string>
+    <string name="typeModeratorPasswordLabel">Type Moderator Password</string>
 </resources>

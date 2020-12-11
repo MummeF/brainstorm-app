@@ -19,6 +19,7 @@
 
     <style name="buttonStyle" parent="Widget.AppCompat.Button">
         <item name="backgroundTint">@color/buttonGrey</item>
+        <item name="android:textAlignment">center</item>
     </style>
 
     <style name="textViewRoomPhase" parent="Widget.AppCompat.TextView">

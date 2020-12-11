@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="New Contribution"
+        android:text="@string/newContributionLabel"
         app:layout_constraintBottom_toTopOf="@id/editTextNewCommentDialog"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,7 +20,7 @@
         android:layout_width="0dp"
         app:layout_constraintWidth_percent="0.7"
         android:layout_height="wrap_content"
-        android:hint="content"
+        android:hint="@string/contentLabel"
         app:layout_constraintBottom_toBottomOf="@id/submitBtnNewCommentDialog"
         app:layout_constraintEnd_toStartOf="@id/submitBtnNewCommentDialog"
         app:layout_constraintStart_toStartOf="parent"

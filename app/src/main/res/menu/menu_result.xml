@@ -4,11 +4,11 @@
     <item
         android:id="@+id/itemShareResult"
         android:icon="@drawable/ic_baseline_share_24"
-        android:title="Share Room Result"
+        android:title="@string/shareRoomResultLabel"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/itemPrintResult"
         android:icon="@drawable/ic_baseline_print_24"
-        android:title="Print Room"
+        android:title="@string/printRoomLabel"
         app:showAsAction="ifRoom" />
 </menu>

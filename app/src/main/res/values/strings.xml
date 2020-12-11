@@ -32,4 +32,16 @@
     <string name="createPhaseLabel">Create-Phase</string>
     <string name="nameOfTheRoomLabel">Name des Raums</string>
     <string name="resultLabel">Ergebnis</string>
+    <string name="joinFavouritesLabel">Favoriten beitreten</string>
+    <string name="roomListLabel">Raumliste</string>
+    <string name="shareRoomLinkLabel">Link Teilen</string>
+    <string name="markAsFavouriteLabel">Als Favorit markieren</string>
+    <string name="requestModeratorLabel">Moderator anfordern</string>
+    <string name="roomSettingsLabel">Raum-Einstellungen</string>
+    <string name="shareRoomResultLabel">Ergebnisse des Raums teilen</string>
+    <string name="printRoomLabel">Raum drucken</string>
+    <string name="newCommentLabel">Neuer Kommentar</string>
+    <string name="contentLabel">Inhalt</string>
+    <string name="newContributionLabel">Neuer Beitrag</string>
+    <string name="typeModeratorPasswordLabel">Type Moderator Password</string>
 </resources>

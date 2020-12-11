@@ -4,21 +4,21 @@
     <item
         android:id="@+id/itemShareCreate"
         android:icon="@drawable/ic_baseline_share_24"
-        android:title="Share Room Link"
+        android:title="@string/shareRoomLinkLabel"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/itemMarkFavorite"
         android:icon="@drawable/ic_baseline_star_rate_24"
-        android:title="Mark As Favorite"
+        android:title="@string/markAsFavouriteLabel"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/itemRequestModerator"
         android:icon="@drawable/ic_baseline_gavel_24"
-        android:title="Request Moderator"
+        android:title="@string/requestModeratorLabel"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/itemEditRoomSettings"
         android:icon="@drawable/ic_baseline_settings_24"
-        android:title="Room Settings"
+        android:title="@string/roomSettingsLabel"
         app:showAsAction="ifRoom" />
 </menu>

@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Type in Moderator Password"
+        android:text="@string/typeModeratorPasswordLabel"
         app:layout_constraintBottom_toTopOf="@id/editTextModeratorPassword"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,7 +20,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:hint="Moderator Password"
+        android:hint="@string/moderatorPasswordLabel"
         app:layout_constraintBottom_toBottomOf="@id/submitBtnReqModIdDialog"
         app:layout_constraintEnd_toStartOf="@id/submitBtnReqModIdDialog"
         app:layout_constraintStart_toStartOf="parent"
