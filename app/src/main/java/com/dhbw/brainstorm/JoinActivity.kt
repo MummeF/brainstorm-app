@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dhbw.brainstorm.adapter.RoomsAdapter
 import com.dhbw.brainstorm.api.CommonClient
 import com.dhbw.brainstorm.api.model.Room
+import com.dhbw.brainstorm.api.model.RoomState
 import kotlinx.android.synthetic.main.activity_join.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -63,7 +64,7 @@ class JoinActivity : AppCompatActivity(){
                     var rooms: MutableList<Room> = response.body()!!
                     var publicRooms: MutableList<Room> = mutableListOf<Room>()
                     rooms.forEach{
-                        i -> if(i.public){
+                        i -> if(i.public && i.state != RoomState.DONE){
                             publicRooms.add(i)
                         }
                     }
