@@ -52,7 +52,7 @@ class RoomActivity : AppCompatActivity() {
     private var roomId: Int = -1
     private var roomTopic: String = ""
     private var isModerator: Boolean = false
-    private var isDialogOpen: Boolean = false
+    private var isDialogOpen: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,12 +97,11 @@ class RoomActivity : AppCompatActivity() {
         dialog.setContentView(R.layout.dialog_enter_room_password)
         dialog.submitBtPasswordDialog.setOnClickListener{
             val editText = dialog.editTextRoomPassword
-            
             val roomPasswordEntered = editText.text.toString()
             validateRoomPassword(roomPasswordEntered, dialog)
         }
-        dialog.show()
         isDialogOpen = true
+        dialog.show()
     }
 
     fun upgradeRoomState() {
@@ -287,6 +286,7 @@ class RoomActivity : AppCompatActivity() {
             ) {
 
                 if (response.code() == 200) {
+                    isDialogOpen = false
                     if (response.body()!! && !isModerator) {
 
                         if(!isDialogOpen) {
@@ -297,7 +297,7 @@ class RoomActivity : AppCompatActivity() {
                         fetchRoom(roomId)
                     }
                 } else {
-
+                    isDialogOpen = false
                     Toast.makeText(
                         applicationContext,
                         getString(R.string.somethingWentWrongLabel),
