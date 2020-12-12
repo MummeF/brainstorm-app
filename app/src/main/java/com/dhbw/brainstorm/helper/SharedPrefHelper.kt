@@ -112,9 +112,10 @@ class SharedPrefHelper {
             with(sharedPref.edit()) {
                 val favoriteList =
                     HashSet(sharedPref.getStringSet(FAVORITE_LIST_SHARED_PREF, HashSet<String>())!!)
-                favoriteList.forEach { room ->
+                for (room in favoriteList) {
                     if (room!!.startsWith(roomId.toString(), true)) {
                         response = favoriteList.remove(room)
+                        break
                     }
                 }
                 putStringSet(FAVORITE_LIST_SHARED_PREF, favoriteList)
