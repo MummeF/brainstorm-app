@@ -583,6 +583,7 @@ class RoomActivity : AppCompatActivity() {
                                         adapter.update(room)
 
                                         roomHeadline.text = room.topic
+                                        roomTopic = room.topic
                                         roomDescription.text = room.description
                                         when (room.state) {
                                             RoomState.CREATE -> roomPhaseText.text = "Create-Phase"

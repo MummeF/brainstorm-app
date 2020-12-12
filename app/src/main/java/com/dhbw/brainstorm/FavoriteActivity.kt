@@ -15,7 +15,7 @@ class FavoriteActivity : AppCompatActivity() {
 
         val sharedPref = getSharedPreferences(FAVORITE_SHARED_PREF, MODE_PRIVATE)
 
-        roomList.adapter = RoomsAdapter(SharedPrefHelper.getFavorites(this), applicationContext)
+        roomList.adapter = RoomsAdapter(SharedPrefHelper.getFavorites(this), this@FavoriteActivity)
         roomList.layoutManager = LinearLayoutManager(applicationContext)
 
     }
