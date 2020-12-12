@@ -11,11 +11,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Brainstorm">
-        <activity android:name=".CreateRoomActivity"></activity>
-        <activity android:name=".JoinActivity"></activity>
+        <activity android:name=".FavoriteActivity"></activity>
         <activity
-            android:name=".RoomActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name=".RoomSettings"
+            android:parentActivityName=".RoomActivity" />
+        <activity android:name=".ResultActivity" />
+        <activity android:name=".CreateRoomActivity" />
+        <activity android:name=".JoinActivity" />
+        <activity android:name=".RoomActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

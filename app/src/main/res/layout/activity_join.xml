@@ -6,27 +6,108 @@
     android:layout_height="match_parent"
     tools:context=".JoinActivity">
 
-    <EditText
-        android:id="@+id/roomIdText"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineVerticalLeft"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Room-ID"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/roomBtn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.025" />
 
-    <Button
-        android:id="@+id/roomBtn"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineHorizontalFooterBottom"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.95" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineVerticalRight"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.975" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="Join"
+        android:id="@+id/joinRoomHeader"
+        android:text="@string/joinRoomLabel"
+        style="@style/textViewHeaderStyle"
+        app:layout_constraintLeft_toLeftOf="@id/guidelineVerticalLeft"
+        app:layout_constraintRight_toRightOf="@id/guidelineVerticalRight"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/roomIdEditText"
+        android:inputType="textPersonName"
+        android:hint="@string/enterRoomIdLabel"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintTop_toBottomOf="@id/joinRoomHeader"
+        app:layout_constraintLeft_toLeftOf="@id/guidelineVerticalLeft"
+        app:layout_constraintRight_toLeftOf="@id/joinRoomButton"/>
+
+
+
+    <Button
+        android:id="@+id/joinRoomButton"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="@string/joinLabel"
+        app:layout_constraintBottom_toBottomOf="@id/roomIdEditText"
+        app:layout_constraintRight_toRightOf="@id/guidelineVerticalRight"
+        app:layout_constraintTop_toTopOf="@id/roomIdEditText" />
+
+
+    <TextView
+        android:id="@+id/joinRoomPublicHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/publicRoomsLabel"
+        style="@style/textViewHeaderStyleSmaller"
+        android:layout_marginTop="20dp"
+        app:layout_constraintLeft_toLeftOf="@id/guidelineVerticalLeft"
+        app:layout_constraintRight_toRightOf="@id/guidelineVerticalRight"
+        app:layout_constraintTop_toBottomOf="@id/joinRoomButton"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintLeft_toLeftOf="@id/guidelineVerticalLeft"
+        app:layout_constraintRight_toRightOf="@id/guidelineVerticalRight"
+        app:layout_constraintTop_toBottomOf="@id/joinRoomPublicHeader"
+        app:layout_constraintBottom_toTopOf="@id/guidelineHorizontalFooterBottom"
+        android:background="@drawable/layout_buttonbackground"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/roomList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/item_room_card"
+            android:layout_margin="1dp"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/layout_footerbackground"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guidelineHorizontalFooterBottom"/>
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

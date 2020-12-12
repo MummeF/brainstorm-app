@@ -41,6 +41,11 @@ class MainActivity : AppCompatActivity() {
             var intent = Intent(this, JoinActivity::class.java)
             startActivity(intent)
         }
+
+        showFavouriteRoomsButton.setOnClickListener {
+            var intent = Intent(this, FavoriteActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     fun checkBackend() {
@@ -70,7 +75,7 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     Toast.makeText(
                         applicationContext,
-                        "Something went wrong. Please try again or come back later.",
+                        getString(R.string.somethingWentWrongLabel),
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -80,7 +85,7 @@ class MainActivity : AppCompatActivity() {
                 t.printStackTrace()
                 Toast.makeText(
                     applicationContext,
-                    "Something went wrong. Please try again or come back later.",
+                    getString(R.string.somethingWentWrongLabel),
                     Toast.LENGTH_LONG
                 ).show()
             }
@@ -121,14 +126,6 @@ class MainActivity : AppCompatActivity() {
     fun openCreateRoomActivity() {
         intent = Intent(this, CreateRoomActivity::class.java)
         startActivity(intent)
-    }
-
-    fun openJoinRoomActivity(view: View) {
-        Toast.makeText(
-            applicationContext,
-            "This is not implemented yet, you greedy Bastard!",
-            Toast.LENGTH_LONG
-        ).show();
     }
 
 }

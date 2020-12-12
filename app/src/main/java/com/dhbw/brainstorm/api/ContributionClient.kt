@@ -1,6 +1,7 @@
 package com.dhbw.brainstorm.api
 
 import com.dhbw.brainstorm.api.model.Contribution
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -8,7 +9,7 @@ interface ContributionClient {
 
 
     @POST("/api/addContribution")
-    fun addContribution(@Query("roomId") roomId: Int, @Body content: String): Call<String>
+    fun addContribution(@Query("roomId") roomId: Int, @Body content: RequestBody): Call<String>
 
     @DELETE("/api/deleteContribution")
     fun deleteContribution(
@@ -23,11 +24,12 @@ interface ContributionClient {
         @Query("subject") subject: String
     ): Call<String>
 
-    @GET("/api/updateContribution")
+    @PUT("/api/updateContribution")
     fun updateContribution(
         @Query("roomId") roomId: Int,
         @Query("contributionId") contributionId: Int,
-        @Query("subject") subject: String
+        @Query("subject") subject: String,
+        @Query("content") content: String
     ): Call<String>
 
 

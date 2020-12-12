@@ -6,6 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".CreateRoomActivity">
 
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/wholeLayoutCreateRoom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+
+
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineVerticalLeft"
         android:layout_width="0dp"
@@ -33,14 +48,8 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.15" />
+        app:layout_constraintGuide_percent="0.1" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineHorizontalViewBottom"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.93" />
 
 
     <TextView
@@ -48,7 +57,7 @@
         style="@style/textViewHeaderStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Raum erstellen"
+        android:text="@string/createRoomLabel"
         app:layout_constraintLeft_toLeftOf="@id/guidelineVerticalLeft"
         app:layout_constraintRight_toRightOf="@id/guidelineVerticalRight"
         app:layout_constraintTop_toTopOf="parent"
@@ -56,64 +65,41 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/nestedScrollViewLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/layout_buttonbackground"
-            app:layout_constraintBottom_toBottomOf="@id/guidelineHorizontalViewBottom"
+            app:layout_constraintBottom_toTopOf="@id/createRoomButton"
             app:layout_constraintLeft_toLeftOf="@id/guidelineVerticalLeft"
             app:layout_constraintRight_toRightOf="@id/guidelineVerticalRight"
-            app:layout_constraintTop_toBottomOf="@+id/guidelineHorizontalViewTop" >
-
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guidelineHorizontalViewContentBottom"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.975" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guidelineHorizontalViewContentTop"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.025" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintTop_toTopOf="@+id/guidelineHorizontalViewContentTop"
-                app:layout_constraintBottom_toBottomOf="@id/guidelineHorizontalViewContentBottom"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                >
-
+            app:layout_constraintTop_toBottomOf="@+id/guidelineHorizontalViewTop"
+           >
 
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:overScrollMode="never"
+                >
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
-<!--
-                    <androidx.constraintlayout.widget.Guideline
-                        android:id="@+id/guidelineTopicBottom"
-                        android:layout_height="match_parent"
-                        android:layout_width="match_parent"
-                        android:orientation="horizontal"
-                        app:layout_constraintGuide_percent="0.33"/>
 
--->
-                    <!-- style tbd -->
                     <TextView
                         android:id="@+id/topicHeader"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Thema"
-                        style="@style/textViewHeaderStyle"
+                        android:text="@string/topicLabel"
+                        style="@style/textViewHeaderStyleSmaller"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
@@ -124,7 +110,7 @@
                         android:id="@+id/topicDescription"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Lege ein Thema für Deinen Raum fest"
+                        android:text="@string/topicDescriptionLabel"
                         style="@style/textViewDescription"
                         app:layout_constraintTop_toBottomOf="@id/topicHeader"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -141,15 +127,15 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/topicInputField"
-                            android:hint="Thema" />
+                            android:hint="@string/topicLabel" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
                         android:id="@+id/descriptionHeader"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Beschreibung"
-                        style="@style/textViewHeaderStyle"
+                        android:text="@string/descriptionLabel"
+                        style="@style/textViewHeaderStyleSmaller"
                         android:layout_marginTop="20dp"
                         app:layout_constraintTop_toBottomOf="@id/topicInputFieldBackground"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -160,7 +146,7 @@
                         android:id="@+id/descriptionDescription"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Beschreibe dein Thema in wenigen Worten"
+                        android:text="@string/descriptionDescriptionLabel"
                         style="@style/textViewDescription"
                         app:layout_constraintTop_toBottomOf="@id/descriptionHeader"
                         app:layout_constraintRight_toRightOf="parent"
@@ -176,17 +162,16 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/descriptionInputField"
-                            android:hint="Beschreibung" />
+                            android:hint="@string/descriptionLabel" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
                         android:id="@+id/moderatorPasswordHeader"
-                        style="@style/textViewHeaderStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:text="Moderator Passwort"
-                        app:layout_constraintHorizontal_bias="0.0"
+                        android:text="@string/moderatorPasswordLabel"
+                        style="@style/textViewHeaderStyleSmaller"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/descriptionInputFieldBackground" />
@@ -195,7 +180,7 @@
                         android:id="@+id/moderatorPasswordDescription"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Setze ein Passwort, mit dem du die Moderatorrechte anfordern kannst, falls diese verloren gehen!"
+                        android:text="@string/moderatorPasswordDescriptionLabel"
                         style="@style/textViewDescription"
                         app:layout_constraintTop_toBottomOf="@id/moderatorPasswordHeader"
                         app:layout_constraintRight_toRightOf="parent"
@@ -215,7 +200,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/moderatorPasswordInputField"
-                            android:hint="Passwort"
+                            android:hint="@string/passwordLabel"
                             android:inputType="textPassword" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -225,16 +210,18 @@
                         android:layout_height="wrap_content"
                         app:layout_constraintBottom_toBottomOf="@id/publicRoomDescription"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        android:layout_marginLeft="30dp"
-                        app:layout_constraintTop_toTopOf="@id/publicRoomDescription" />
+                        android:layout_marginStart="30dp"
+                        app:layout_constraintTop_toTopOf="@id/publicRoomDescription"
+                        tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                     <TextView
                         android:id="@+id/publicRoomDescription"
                         style="@style/textViewDescription"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:text="Öffentlicher Raum"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/publicRoomLabel"
                         app:layout_constraintHorizontal_bias="0.2"
                         app:layout_constraintLeft_toRightOf="@id/publicRoomSwitch"
                         app:layout_constraintRight_toRightOf="parent"
@@ -245,9 +232,9 @@
                         android:id="@+id/roomPasswordHeader"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Raum Passwort"
-                        style="@style/textViewHeaderStyle"
+                        android:text="@string/roomPasswordLabel"
                         android:layout_marginTop="20dp"
+                        style="@style/textViewHeaderStyleSmaller"
                         app:layout_constraintTop_toBottomOf="@id/publicRoomDescription"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"/>
@@ -256,7 +243,7 @@
                         android:id="@+id/roomPasswordDescription"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Setze ein Passwort für den Raum, damit nur deine Kollegen dem Raum beitreten können!"
+                        android:text="@string/roomPasswordDescriptionLabel"
                         style="@style/textViewDescription"
                         app:layout_constraintTop_toBottomOf="@id/roomPasswordHeader"
                         app:layout_constraintRight_toRightOf="parent"
@@ -276,21 +263,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/roomPasswordInputField"
-                            android:hint="Passwort (optional)"
+                            android:hint="@string/passwordOptionalLabel"
                             android:inputType="textPassword" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <Button
-                        android:id="@+id/createRoomButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Erstellen und beitreten"
-                        android:layout_marginTop="20dp"
-                        android:onClick="onCreateRoomButtonClick"
-                        app:layout_constraintTop_toBottomOf="@id/roomPasswordInputFieldBackground"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -299,13 +275,19 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
-
-
-
+    <Button
+        android:id="@+id/createRoomButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="@string/createAndJoinLabel"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        app:layout_constraintLeft_toLeftOf="@id/nestedScrollViewLayout"
+        app:layout_constraintRight_toRightOf="@id/nestedScrollViewLayout"
+        app:layout_constraintTop_toBottomOf="@id/nestedScrollViewLayout"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineHorizontalFooterBottom"/>
 
 
 
@@ -321,6 +303,35 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guidelineHorizontalFooterBottom"/>
 
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/progressCreateRoom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/buttonBackgroundGrey"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone">
+
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 

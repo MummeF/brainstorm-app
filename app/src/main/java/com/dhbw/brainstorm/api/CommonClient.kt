@@ -39,6 +39,6 @@ interface CommonClient {
 
 
     @GET("/api/getRoomList")
-    fun getRoomList(): Call<List<Room>>
+    fun getRoomList(): Call<MutableList<Room>>
 
 }

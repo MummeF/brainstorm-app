@@ -1,5 +1,6 @@
 package com.dhbw.brainstorm
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -7,9 +8,13 @@ import android.widget.*
 import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.dhbw.brainstorm.api.CommonClient
+import com.dhbw.brainstorm.helper.SharedPrefHelper
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.android.synthetic.main.activity_create_room.*
+import kotlinx.android.synthetic.main.activity_join.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.createRoomButton
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
@@ -22,52 +27,32 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.lang.NumberFormatException
 import java.util.concurrent.TimeUnit
 
 class CreateRoomActivity : AppCompatActivity() {
 
-    lateinit var roomPasswordHeader: TextView
-    lateinit var roomPasswordDescription: TextView
-    lateinit var roomPasswordInputFieldBackground: TextInputLayout
-    lateinit var roomPasswordInputField: TextInputEditText
-    lateinit var createRoomButton: Button
-    lateinit var publicRoomSwitch: Switch
-    lateinit var topicInputField: TextInputEditText
-    lateinit var descriptionInputField: TextInputEditText
-    lateinit var moderatorPasswordInputField: TextInputEditText
     var roomPasswordVisible: Boolean = true
-    var moderatorId: String = "5534423"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_room)
-        initComponents()
         toggleRoomPasswordVisibility()
         publicRoomSwitch.setOnCheckedChangeListener { _, _ ->
             toggleRoomPasswordVisibility()
         }
+
+        createRoomButton.setOnClickListener { onCreateRoomButtonClick() }
     }
 
-
-    private fun initComponents(){
-        roomPasswordHeader = findViewById(R.id.roomPasswordHeader)
-        roomPasswordDescription = findViewById(R.id.roomPasswordDescription)
-        roomPasswordInputFieldBackground = findViewById(R.id.roomPasswordInputFieldBackground)
-        roomPasswordInputField = findViewById(R.id.roomPasswordInputField)
-        createRoomButton = findViewById(R.id.createRoomButton)
-        publicRoomSwitch = findViewById(R.id.publicRoomSwitch)
-        topicInputField = findViewById(R.id.topicInputField)
-        descriptionInputField = findViewById(R.id.descriptionInputField)
-        moderatorPasswordInputField = findViewById(R.id.moderatorPasswordInputField)
-    }
 
 
     private fun toggleRoomPasswordVisibility(){
         if(roomPasswordHeader.visibility == View.VISIBLE){
-            roomPasswordHeader.visibility = View.INVISIBLE
-            roomPasswordDescription.visibility = View.INVISIBLE
-            roomPasswordInputFieldBackground.visibility = View.INVISIBLE
-            roomPasswordInputField.visibility = View.INVISIBLE
+            roomPasswordHeader.visibility = View.GONE
+            roomPasswordDescription.visibility = View.GONE
+            roomPasswordInputFieldBackground.visibility = View.GONE
+            roomPasswordInputField.visibility = View.GONE
             roomPasswordVisible = false
             toggleCreateButtonConstraint()
         }
@@ -93,7 +78,7 @@ class CreateRoomActivity : AppCompatActivity() {
         createRoomButton.requestLayout()
     }
 
-    fun onCreateRoomButtonClick(view: View) {
+    fun onCreateRoomButtonClick() {
         var topic: String = topicInputField.text.toString()
         var description: String = descriptionInputField.text.toString()
         var moderatorPassword: String = moderatorPasswordInputField.text.toString()
@@ -101,7 +86,8 @@ class CreateRoomActivity : AppCompatActivity() {
         var isRoomPublic: Boolean = roomPasswordVisible
 
         if(topic != "" && description != "" && moderatorPassword!= ""){
-            createRoom(description, isRoomPublic, moderatorId, topic, roomPassword, moderatorPassword)
+            createRoom(description, isRoomPublic, SharedPrefHelper.getModeratorId(this), topic, roomPassword, moderatorPassword)
+            showProgressBar()
         }
     }
 
@@ -135,7 +121,7 @@ class CreateRoomActivity : AppCompatActivity() {
                 } else {
                     Toast.makeText(
                         applicationContext,
-                        "Something went wrong. Please try again or come back later.",
+                        getString(R.string.somethingWentWrongLabel),
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -145,7 +131,7 @@ class CreateRoomActivity : AppCompatActivity() {
                 t.printStackTrace()
                 Toast.makeText(
                     applicationContext,
-                    "Something went wrong. Please try again or come back later.",
+                    getString(R.string.somethingWentWrongLabel),
                     Toast.LENGTH_LONG
                 ).show()
             }
@@ -155,7 +141,7 @@ class CreateRoomActivity : AppCompatActivity() {
 
     fun setModeratorPassword(roomId: Int, moderatorPassword: String){
         val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
+        interceptor.level = HttpLoggingInterceptor.Level.BASIC
         val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
         val client = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
@@ -177,9 +163,10 @@ class CreateRoomActivity : AppCompatActivity() {
                 else {
                     Toast.makeText(
                         applicationContext,
-                        "Something went wrong. Please try again or come back later.",
+                        getString(R.string.somethingWentWrongLabel),
                         Toast.LENGTH_LONG
                     ).show()
+                    goToHome()
                 }
             }
 
@@ -187,9 +174,10 @@ class CreateRoomActivity : AppCompatActivity() {
                 t.printStackTrace()
                 Toast.makeText(
                     applicationContext,
-                    "Something went wrong. Please try again or come back later.",
+                    getString(R.string.somethingWentWrongLabel),
                     Toast.LENGTH_LONG
                 ).show()
+                goToHome()
             }
 
         })
@@ -218,9 +206,10 @@ class CreateRoomActivity : AppCompatActivity() {
                 else {
                     Toast.makeText(
                         applicationContext,
-                        "Something went wrong. Please try again or come back later.",
+                        getString(R.string.somethingWentWrongLabel),
                         Toast.LENGTH_LONG
                     ).show()
+                    goToHome()
                 }
             }
 
@@ -228,17 +217,34 @@ class CreateRoomActivity : AppCompatActivity() {
                 t.printStackTrace()
                 Toast.makeText(
                     applicationContext,
-                    "Something went wrong. Please try again or come back later.",
+                    getString(R.string.somethingWentWrongLabel),
                     Toast.LENGTH_LONG
                 ).show()
+                goToHome()
             }
 
         })
     }
-
-    fun joinCreatedRoom(roomId: Int){
-        Toast.makeText(this, "Wenn wir weiter wären, würdest du jetzt dem Raum mit der Id" + roomId.toString() + " beitreten", Toast.LENGTH_SHORT).show()
-        //hier fehlt der intent mit RoomId zur Room Activity
+    override fun onBackPressed() {
+        super.onBackPressed()
+        goToHome()
+    }
+    // go back to home Activity
+    fun goToHome() {
+        var intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 
+    fun joinCreatedRoom(roomId: Int){
+        val intent = Intent(this, RoomActivity::class.java)
+        intent.putExtra("roomId", roomId)
+        startActivity(intent)
+    }
+
+
+    fun showProgressBar(){
+        progressCreateRoom.visibility = View.VISIBLE
+        wholeLayoutCreateRoom.visibility = View.GONE
+    }
 }
+

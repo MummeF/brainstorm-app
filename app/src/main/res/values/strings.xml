@@ -1,4 +1,71 @@
 <resources>
     <string name="app_name">Brainstorm</string>
+    <string name="frontendUrl" translatable="false">https://brainstorm-dhbw.herokuapp.com</string>
     <string name="backendUrl" translatable="false">https://brainstorm-dhbw-backend.herokuapp.com</string>
+    <string name="backendWebSocketUrl" translatable="false">wss://brainstorm-dhbw-backend.herokuapp.com/websocket</string>
+    <string name="wsSub" translatable="false">/app/subscribe</string>
+    <string name="wsUnSub" translatable="false">/app/unsubscribe</string>
+    <string name="wsTopic" translatable="false">/user/topic/room</string>
+    <string name="createRoomLabel">Raum erstellen</string>
+    <string name="commentNumber">Kommentare (%d)</string>
+    <string name="topicLabel">Thema</string>
+    <string name="topicDescriptionLabel">Lege ein Thema für deinen Raum fest</string>
+    <string name="descriptionLabel">Beschreibung</string>
+    <string name="descriptionDescriptionLabel">Beschreibe dein Thema in wenigen Worten</string>
+    <string name="moderatorPasswordLabel">Moderator Passwort</string>
+    <string name="moderatorPasswordDescriptionLabel">Setze ein Passwort, mit dem du die Moderatorrechte anfordern kannst, falls diese verloren gehen!</string>
+    <string name="passwordLabel">Passwort</string>
+    <string name="publicRoomLabel">Öffentlicher Raum</string>
+    <string name="roomPasswordLabel">Raum Passwort</string>
+    <string name="roomPasswordDescriptionLabel">Setze ein Passwort für den Raum, damit nur deine Kollegen dem Raum beitreten können!</string>
+    <string name="passwordOptionalLabel">Passwort (optional)</string>
+    <string name="createAndJoinLabel">Erstellen und beitreten</string>
+    <string name="createNewRoomOrJoinLabel">Erstelle einen Raum, oder trete einem bestehenden Raum bei</string>
+    <string name="createNewRoomLabel">Raum erstellen</string>
+    <string name="joinExistingRoom">Raum beitreten</string>
+    <string name="welcomeToBrainstormLabel">Willkommen bei Brainstorm!</string>
+    <string name="myFavouritesLabel">Meine Favoriten</string>
+    <string name="joinRoomLabel">Raum beitreten</string>
+    <string name="enterRoomIdLabel">Raum Id eingeben</string>
+    <string name="joinLabel">Beitreten</string>
+    <string name="publicRoomsLabel">Öffentliche Räume</string>
+    <string name="nextLabel">Weiter</string>
+    <string name="createPhaseLabel">Create-Phase</string>
+    <string name="nameOfTheRoomLabel">Name des Raums</string>
+    <string name="resultLabel">Ergebnis</string>
+    <string name="joinFavouritesLabel">Favoriten beitreten</string>
+    <string name="roomListLabel">Raumliste</string>
+    <string name="shareRoomLinkLabel">Link Teilen</string>
+    <string name="markAsFavouriteLabel">Als Favorit markieren</string>
+    <string name="requestModeratorLabel">Moderator anfordern</string>
+    <string name="roomSettingsLabel">Raum-Einstellungen</string>
+    <string name="shareRoomResultLabel">Ergebnisse des Raums teilen</string>
+    <string name="printRoomLabel">Raum drucken</string>
+    <string name="newCommentLabel">Neuer Kommentar</string>
+    <string name="contentLabel">Inhalt</string>
+    <string name="newContributionLabel">Neuer Beitrag</string>
+    <string name="typeModeratorPasswordLabel">Geben Sie das Moderatorpasswort ein</string>
+    <string name="typeRoomPasswordLabel">Bitte geben Sie das Passwort ein</string>
+    <string name="somethingWentWrongLabel">Irgendwas ist schiefgelaufen. Bitte kommen Sie später wieder.</string>
+    <string name="checkoutThisBrainstormRoomLabel">Schau dir mal diesen Brainstorm Raum an</string>
+    <string name="shareLinkToRoomVia">Link teilen via</string>
+    <string name="printResult">Drucke Ergebnisse</string>
+    <string name="noRoomFoundLabel">Kein Raum gefunden</string>
+    <string name="errorUpdateRoom">could not apply changes</string>
+    <string name="closedRoom">Room closed</string>
+    <string name="errorCloseRoom">Could not close Room</string>
+    <string name="appliedChanges">Changes applied</string>
+    <string name="incorrectRoomPasswordLabel">Falsches Passwort, bitte versuchen Sie es erneut</string>
+    <string name="editContributionLabel">Beitrag bearbeiten</string>
+    <string name="addSubjectLabel">Titel hinzufügen</string>
+    <string name="subjectLabel">Titel</string>
+    <string name="noSubjectLabel">Kein Titel zugewiesen</string>
+    <string name="roomAddedToFavoritesLabel">Raum wurde zu Favoriten hinzugefügt</string>
+    <string name="roomRemovedFromFavoritesLabel">Raum wurde aus Favoriten entfernt</string>
+    <string name="closeRoomLabel">Raum schließen</string>
+    <string name="submitChangesLabel">Änderungen speichern</string>
+    <string name="deleteContributionLabel">Beitrag löschen</string>
+    <string name="areUSureLabel">Bist Du sicher?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
 </resources>
