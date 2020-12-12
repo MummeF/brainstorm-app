@@ -43,7 +43,7 @@ class SharedPrefHelper {
                     HashSet(sharedPrev.getStringSet(COMMENT_LIST_SHARED_PREF, HashSet<String>())!!)
                 votedComments.add("$roomId|$contributionId|$commentId|" + if (voteUp) "up" else "down")
                 putStringSet(COMMENT_LIST_SHARED_PREF, votedComments)
-                apply()
+                commit()
             }
         }
 
@@ -77,7 +77,7 @@ class SharedPrefHelper {
                     HashSet(sharedPrev.getStringSet(CONTRIBUTION_LIST_SHARED_PREF, HashSet<String>())!!)
                 votedContributions.add("$roomId|$contributionId|" + if (voteUp) "up" else "down")
                 putStringSet(CONTRIBUTION_LIST_SHARED_PREF, votedContributions)
-                apply()
+                commit()
             }
         }
 

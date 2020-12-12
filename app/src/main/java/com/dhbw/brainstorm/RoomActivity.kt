@@ -25,6 +25,7 @@ import com.google.gson.Gson
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_room.*
 import kotlinx.android.synthetic.main.dialog_add_contribution.*
+import kotlinx.android.synthetic.main.dialog_add_contribution.editTextNewCommentDialog
 import kotlinx.android.synthetic.main.dialog_enter_room_password.*
 import kotlinx.android.synthetic.main.dialog_request_mod_rights.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -39,6 +40,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.lang.Exception
 import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 
@@ -51,6 +53,7 @@ class RoomActivity : AppCompatActivity() {
     private lateinit var topic: Disposable
     private var roomId: Int = -1
     private var roomTopic: String = ""
+    private lateinit var room: Room;
     private var isModerator: Boolean = false
     private var isDialogOpen: Boolean = true
 
@@ -94,10 +97,10 @@ class RoomActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    fun dialogEnterRoomPassword(){
+    fun dialogEnterRoomPassword() {
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.dialog_enter_room_password)
-        dialog.submitBtPasswordDialog.setOnClickListener{
+        dialog.submitBtPasswordDialog.setOnClickListener {
             val editText = dialog.editTextRoomPassword
             val roomPasswordEntered = editText.text.toString()
             validateRoomPassword(roomPasswordEntered, dialog)
@@ -142,8 +145,8 @@ class RoomActivity : AppCompatActivity() {
                 val i = Intent(Intent.ACTION_SEND)
                 i.type = "text/plain"
                 i.putExtra(Intent.EXTRA_TEXT, getString(R.string.frontendUrl) + "/room/" + roomId)
-                i.putExtra(Intent.EXTRA_SUBJECT, "Check out this Brainstorm room")
-                startActivity(Intent.createChooser(i, "Share link to room via"))
+                i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.checkoutThisBrainstormRoomLabel))
+                startActivity(Intent.createChooser(i, getString(R.string.shareLinkToRoomVia)))
             }
             R.id.itemRequestModerator -> {
                 dialogRequestModeratorRights()
@@ -153,14 +156,14 @@ class RoomActivity : AppCompatActivity() {
                     SharedPrefHelper.addFavorite(this, roomId, roomTopic)
                     Toast.makeText(
                         applicationContext,
-                        "Room added to favorites",
+                        getString(R.string.roomAddedToFavoritesLabel),
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
                     SharedPrefHelper.removeFavorite(this, roomId)
                     Toast.makeText(
                         applicationContext,
-                        "Room removed from favorites",
+                        getString(R.string.roomRemovedFromFavoritesLabel),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -195,7 +198,7 @@ class RoomActivity : AppCompatActivity() {
         val dialog = Dialog(this)
 
         dialog.setContentView(R.layout.dialog_add_contribution)
-        dialog.submitBtnNewCommentDialog.setOnClickListener {
+        dialog.submitBtnAddContribution.setOnClickListener {
             val editText = dialog.editTextNewCommentDialog
 
             val contentNewContribution = editText.text.toString()
@@ -308,11 +311,10 @@ class RoomActivity : AppCompatActivity() {
                     isDialogOpen = false
                     if (response.body()!! && !isModerator) {
 
-                        if(!isDialogOpen) {
+                        if (!isDialogOpen) {
                             dialogEnterRoomPassword()
                         }
-                    }
-                    else {
+                    } else {
                         fetchRoom(roomId)
                     }
                 } else {
@@ -340,8 +342,7 @@ class RoomActivity : AppCompatActivity() {
     }
 
 
-    fun validateRoomPassword(password: String, dialog: Dialog)
-    {
+    fun validateRoomPassword(password: String, dialog: Dialog) {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BASIC
         val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
@@ -486,6 +487,7 @@ class RoomActivity : AppCompatActivity() {
             .baseUrl(getString(R.string.backendUrl))
             .build()
             .create(RoomClient::class.java)
+        val activity = this
         client.validateModeratorId(roomId, modId)
             .enqueue(object : Callback<Boolean> {
                 override fun onResponse(
@@ -496,25 +498,21 @@ class RoomActivity : AppCompatActivity() {
                     if (response.code() == 200) {
                         isModerator = response.body()!!
                         invalidateOptionsMenu()
+                        if (roomTopic != "") {
+                            adapter = ContributionsAdapter(applicationContext, activity)
+                            contributionList.adapter = adapter
+                            adapter.update(room, isModerator)
+                        }
+
                         if (isModerator) {
                             runOnUiThread {
                                 nextBtn.visibility = View.VISIBLE
                             }
 
-                            Toast.makeText(
-                                applicationContext,
-                                "Moderator ID was right",
-                                Toast.LENGTH_SHORT
-                            ).show()
                         } else {
                             runOnUiThread {
                                 nextBtn.visibility = View.GONE
                             }
-                            Toast.makeText(
-                                applicationContext,
-                                "Incorrect moderator password!",
-                                Toast.LENGTH_SHORT
-                            ).show()
                         }
                     } else {
                         Toast.makeText(
@@ -561,26 +559,21 @@ class RoomActivity : AppCompatActivity() {
                             when (message.type) {
                                 "isAlive" -> println("Heartbeat!")
                                 "data" -> {
-                                    var room =
+                                    room =
                                         Gson().fromJson(message.content, Room::class.java)
                                     runOnUiThread {
                                         if (adapter.room.state != room.state) {
                                             adapter = ContributionsAdapter(applicationContext, this)
                                             contributionList.adapter = adapter
 
-                                            // TODO if room.state == RoomState.Done -> Intent auf ResultActivity
                                             if (room.state.equals(RoomState.DONE)) {
                                                 val intent =
                                                     Intent(this, ResultActivity::class.java)
                                                 intent.putExtra(ROOM_ID_INTENT, roomId)
                                                 startActivity(intent)
-                                                // TODO: soll funktionieren
-                                                unsubScribeAndDisconnect()
                                             }
                                         }
-//                                        adapter = ContributionsAdapter(applicationContext, this)
-//                                        contributionList.adapter = adapter
-                                        adapter.update(room)
+                                        adapter.update(room, isModerator)
 
                                         roomHeadline.text = room.topic
                                         roomTopic = room.topic
@@ -593,7 +586,6 @@ class RoomActivity : AppCompatActivity() {
                                     }
                                 }
                                 "mod-update" -> {
-                                    //TODO: Update Mod
                                     validateModeratorId(SharedPrefHelper.getModeratorId(this))
                                 }
                                 "delete" -> {
@@ -639,7 +631,6 @@ class RoomActivity : AppCompatActivity() {
                         }
                     })
 
-
                 }
                 Event.Type.CLOSED -> {
                     unsubScribeAndDisconnect()
@@ -654,8 +645,10 @@ class RoomActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-        if (stompConnection != null) {
+        try {
             unsubScribeAndDisconnect()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
         hideRoom()
         super.onPause()
@@ -663,11 +656,15 @@ class RoomActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if(!isDialogOpen){
+        if (!isDialogOpen) {
             hasPassword(roomId)
         }
 
     }
+
+
+
+
 
     fun showRoom() {
 

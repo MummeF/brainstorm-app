@@ -56,4 +56,16 @@
     <string name="errorCloseRoom">Could not close Room</string>
     <string name="appliedChanges">Changes applied</string>
     <string name="incorrectRoomPasswordLabel">Falsches Passwort, bitte versuchen Sie es erneut</string>
+    <string name="editContributionLabel">Beitrag bearbeiten</string>
+    <string name="addSubjectLabel">Titel hinzufügen</string>
+    <string name="subjectLabel">Titel</string>
+    <string name="noSubjectLabel">Kein Titel zugewiesen</string>
+    <string name="roomAddedToFavoritesLabel">Raum wurde zu Favoriten hinzugefügt</string>
+    <string name="roomRemovedFromFavoritesLabel">Raum wurde aus Favoriten entfernt</string>
+    <string name="closeRoomLabel">Raum schließen</string>
+    <string name="submitChangesLabel">Änderungen speichern</string>
+    <string name="deleteContributionLabel">Beitrag löschen</string>
+    <string name="areUSureLabel">Bist Du sicher?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
 </resources>

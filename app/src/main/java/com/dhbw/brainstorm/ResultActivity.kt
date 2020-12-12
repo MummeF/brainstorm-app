@@ -76,7 +76,7 @@ class  ResultActivity : AppCompatActivity() {
                     if (room != null) {
                         showRoom()
                         runOnUiThread{
-                            adapter.update(room)
+                            adapter.update(room, false)
                             roomHeadline.text = room.topic
                             roomDescription.text = room.description
                         }

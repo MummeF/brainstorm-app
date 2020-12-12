@@ -145,27 +145,29 @@
 
                     <Button
                         android:id="@+id/closeRoomBtn"
+                        style="@style/closeRoomBtnStyle"
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/ic_baseline_delete_24"
-                        android:text="Close Room"
-                        android:textAlignment="textEnd"
-                        app:layout_constraintTop_toBottomOf="@id/descriptionInputFieldBackground"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
                         android:layout_margin="50dp"
+                        android:drawableLeft="@drawable/ic_baseline_delete_24"
+                        android:text="@string/closeRoomLabel"
+                        android:textAlignment="textEnd"
                         app:layout_constraintBottom_toTopOf="@id/submitChangesBtn"
-                        style="@style/closeRoomBtnStyle"/>
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.496"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/descriptionInputFieldBackground" />
+
                     <Button
                         android:id="@+id/submitChangesBtn"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="submit changes"
-                        app:layout_constraintTop_toBottomOf="@id/closeRoomBtn"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_margin="20dp"
+                        android:text="@string/submitChangesLabel"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_margin="20dp"/>
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/closeRoomBtn" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

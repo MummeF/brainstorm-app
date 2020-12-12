@@ -86,22 +86,11 @@ class RoomSettings : AppCompatActivity() {
                 call: Call<String>,
                 response: Response<String>
             ) {
-                if (response.code() == 200) {
-                    Toast.makeText(applicationContext, getString(R.string.closedRoom), Toast.LENGTH_SHORT).show()
-                    goToRoom()
-                } else {
-                    Toast.makeText(applicationContext, getString(R.string.errorCloseRoom), Toast.LENGTH_SHORT)
-                        .show()
-                    goToRoom()
-                }
+                goToHomeAfterClosing()
             }
 
             override fun onFailure(call: Call<String>, t: Throwable) {
-                Toast.makeText(
-                    applicationContext,
-                    "Something went wrong with the API Call",
-                    Toast.LENGTH_SHORT
-                ).show()
+                goToHomeAfterClosing()
             }
 
         })
@@ -146,10 +135,17 @@ class RoomSettings : AppCompatActivity() {
             roomSettingsLayout.visibility = View.VISIBLE
         }
     }
+
     // go back to home Activity
     fun goToRoom() {
         var intent = Intent(this, RoomActivity::class.java)
         intent.putExtra(ROOM_ID_INTENT, roomId)
+        startActivity(intent)
+    }
+
+    fun goToHomeAfterClosing() {
+        var intent = Intent(this, MainActivity::class.java)
+        Toast.makeText(applicationContext, getString(R.string.closedRoom), Toast.LENGTH_LONG).show()
         startActivity(intent)
     }
 }

@@ -24,11 +24,12 @@ interface ContributionClient {
         @Query("subject") subject: String
     ): Call<String>
 
-    @GET("/api/updateContribution")
+    @PUT("/api/updateContribution")
     fun updateContribution(
         @Query("roomId") roomId: Int,
         @Query("contributionId") contributionId: Int,
-        @Query("subject") subject: String
+        @Query("subject") subject: String,
+        @Query("content") content: String
     ): Call<String>
 
 

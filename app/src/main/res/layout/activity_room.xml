@@ -102,18 +102,17 @@
         app:layout_constraintEnd_toStartOf="@id/guidelineVerticalRight"
         app:layout_constraintStart_toStartOf="@id/guidelineVerticalLeft"
         app:layout_constraintTop_toTopOf="@id/guidelineHorizontalButtonsBottom"
-        android:backgroundTint="@color/lightGreen"
-        android:onClick="dialogAddNewContribution"/>
+        android:backgroundTint="@color/lightGreen"/>
 
-        <Button
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/nextBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/ic_baseline_skip_next_24"
-            android:text="@string/nextLabel"
+            android:src="@drawable/ic_baseline_skip_next_24"
             app:layout_constraintBottom_toBottomOf="@id/guidelineHorizontalButtonsTop"
             app:layout_constraintEnd_toEndOf="@id/guidelineVerticalRight"
-            app:layout_constraintTop_toTopOf="@id/guidelineHorizontalText" />
+            app:layout_constraintTop_toTopOf="@id/guidelineHorizontalText"
+            android:backgroundTint="@color/lightGreen"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contributionArea"

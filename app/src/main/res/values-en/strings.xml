@@ -50,4 +50,16 @@
     <string name="printResult">Print result</string>
     <string name="noRoomFoundLabel">No room found</string>
     <string name="incorrectRoomPasswordLabel">Wrong Password, pleas try again</string>
+    <string name="editContributionLabel">Edit Contribution</string>
+    <string name="addSubjectLabel">Add Subject</string>
+    <string name="subjectLabel">Subject</string>
+    <string name="noSubjectLabel">"No subject set "</string>
+    <string name="roomAddedToFavoritesLabel">Room added to favorites</string>
+    <string name="roomRemovedFromFavoritesLabel">Room removed from favorites</string>
+    <string name="closeRoomLabel">Close room</string>
+    <string name="submitChangesLabel">Submit changes</string>
+    <string name="deleteContributionLabel">Delete contribution</string>
+    <string name="areUSureLabel">Are you sure?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

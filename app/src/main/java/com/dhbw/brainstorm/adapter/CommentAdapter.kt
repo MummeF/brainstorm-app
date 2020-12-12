@@ -184,7 +184,13 @@ class CommentAdapter(
             } else {
                 call = client.voteCommentDown(roomId, contributionId, commentId)
             }
-
+            SharedPrefHelper.voteComment(
+                activity,
+                roomId,
+                contributionId,
+                commentId,
+                voteUp
+            )
             call.enqueue(object : Callback<String> {
                 override fun onResponse(
                     call: Call<String>,
@@ -195,13 +201,7 @@ class CommentAdapter(
                     if (response.code() != 200) {
                         println("Error")
                     } else {
-                        SharedPrefHelper.voteComment(
-                            activity,
-                            roomId,
-                            contributionId,
-                            commentId,
-                            voteUp
-                        )
+
                     }
                 }
 
