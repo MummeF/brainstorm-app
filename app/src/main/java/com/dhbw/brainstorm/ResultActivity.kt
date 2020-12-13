@@ -47,9 +47,6 @@ class  ResultActivity : AppCompatActivity() {
                 i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.checkoutThisBrainstormRoomLabel))
                 startActivity(Intent.createChooser(i, getString(R.string.shareLinkToRoomVia)))
             }
-            R.id.itemPrintResult -> {
-                Toast.makeText(applicationContext, getString(R.string.printResult), Toast.LENGTH_SHORT).show()
-            }
         }
         return true
     }

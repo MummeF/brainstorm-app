@@ -6,9 +6,4 @@
         android:icon="@drawable/ic_baseline_share_24"
         android:title="@string/shareRoomResultLabel"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/itemPrintResult"
-        android:icon="@drawable/ic_baseline_print_24"
-        android:title="@string/printRoomLabel"
-        app:showAsAction="ifRoom" />
 </menu>
