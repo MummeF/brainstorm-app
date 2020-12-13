@@ -14,7 +14,7 @@
         <activity android:name=".FavoriteActivity"></activity>
         <activity
             android:name=".RoomSettings"
-            android:parentActivityName=".RoomActivity" />
+            />
         <activity android:name=".ResultActivity" />
         <activity android:name=".CreateRoomActivity" />
         <activity android:name=".JoinActivity" />

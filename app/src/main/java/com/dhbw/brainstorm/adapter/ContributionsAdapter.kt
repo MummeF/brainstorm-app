@@ -136,7 +136,6 @@ class ContributionsAdapter(private var context: Context, private var activity: A
 
     fun checkIsSubject(position: Int): Boolean {
         return checkIfIsSubject.get(position)
-
     }
 
     fun update(room: Room, isModerator: Boolean) {

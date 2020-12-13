@@ -14,56 +14,62 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_margin="10dp">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
             <ImageButton
                 android:id="@+id/upVoteContribution"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/buttonGrey"
                 android:src="@drawable/ic_baseline_keyboard_arrow_up_24"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/contributionVotes"
-                android:background="@color/buttonGrey"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/contributionVotes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@id/upVoteContribution"
-                app:layout_constraintBottom_toBottomOf="@id/downVoteContribution"
-                app:layout_constraintStart_toStartOf="@id/downVoteContribution"
-                app:layout_constraintEnd_toEndOf="@id/downVoteContribution"
                 android:text="0"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@id/downVoteContribution"
+                app:layout_constraintEnd_toEndOf="@id/downVoteContribution"
+                app:layout_constraintStart_toStartOf="@id/downVoteContribution"
+                app:layout_constraintTop_toTopOf="@id/upVoteContribution" />
+
             <ImageButton
                 android:id="@+id/downVoteContribution"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/buttonGrey"
                 android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                app:layout_constraintTop_toBottomOf="@id/contributionVotes"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:background="@color/buttonGrey"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/contributionVotes" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/contentTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
             android:padding="0dp"
             android:text="contribution"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:textAlignment="viewStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/constraintLayout"
+            app:layout_constraintTop_toBottomOf="@+id/subjectContributionBtn" />
 
         <ImageButton
             android:id="@+id/deleteContributionBtn"

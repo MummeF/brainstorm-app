@@ -14,47 +14,53 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_margin="10dp">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
             <ImageButton
                 android:id="@+id/thumbUpDown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/buttonGrey"
                 android:src="@drawable/ic_baseline_thumbs_up_down_24"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:background="@color/buttonGrey"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/contributionVotes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@id/thumbUpDown"
-                app:layout_constraintBottom_toBottomOf="@id/thumbUpDown"
-                app:layout_constraintStart_toEndOf="@id/thumbUpDown"
                 android:layout_marginStart="10dp"
                 android:text="0"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@id/thumbUpDown"
+                app:layout_constraintStart_toEndOf="@id/thumbUpDown"
+                app:layout_constraintTop_toTopOf="@id/thumbUpDown" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/contentTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:padding="0dp"
             android:text="contribution"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/constraintLayout2"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
